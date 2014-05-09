@@ -25,7 +25,7 @@ public class DataGrindScreen extends JPanel{
 		Font font = new Font("Times New Roman", Font.BOLD, 16);
 		
 		Rectangle r3 = new Rectangle(100,60,120,30);
-		myLabel = new JLabel("1. Kart");
+		myLabel = new JLabel("1. Card");
 		myLabel.setBounds(r3);
         add(myLabel);
         

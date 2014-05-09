@@ -34,8 +34,8 @@ public class ExtracterMain {
 	
 	public static void main(String[] args) throws IOException {
 		
-	//	buildEnvironment();   
-	//	saveDeckManuel(image);		
+		buildEnvironment();   
+		saveDeckManuel(image);		
 	//	saveDeckAuto(image);	
 	//	importNewCardsToOriginals("guicards.txt");
 
@@ -147,7 +147,7 @@ public class ExtracterMain {
 			int cardIndex = matchCards(ExtractManager.subImage);
 			if(cardIndex != -1)
 			{
-				System.out.println((i+1) + "/15 - " + cardIdMap.get(cardIndex).getName());
+				System.out.println((i+1) + "/"+ numberOfCardInDeck + " - " + cardIdMap.get(cardIndex).getName());
 			}
 			else
 			{
