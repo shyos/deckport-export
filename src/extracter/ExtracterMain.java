@@ -35,8 +35,8 @@ public class ExtracterMain {
 	public static void main(String[] args) throws IOException {
 		
 		buildEnvironment();   
-		saveDeckManuel(image);		
-	//	saveDeckAuto(image);	
+	//	saveDeckManuel(image);		
+		saveDeckAuto(image);	
 	//	importNewCardsToOriginals("guicards.txt");
 
 	}
@@ -92,7 +92,6 @@ public class ExtracterMain {
 				imgRGB[i][j] = img1.getRGB(j, i);
 		      }
 		  }
-
 	    double maxDiff = 100;
 	    double diffPercent = 100;
 	    int cardIndex = -1;
@@ -126,12 +125,13 @@ public class ExtracterMain {
 			    {
 			    	maxDiff = diffPercent;
 			    	cardIndex = card.getHearthhead_id();
+			    	System.out.println("Possible: " + card.getName());
 			    }
-			    if(diffPercent < 3) break;
+			    if(diffPercent < 2) break;
 	    	}
 	    }
-	    System.out.println(cardIndex);
-	    if(diffPercent <3)
+	    System.out.println(cardIndex + " - " + diffPercent);
+	    if(diffPercent < 25)
 	    	return cardIndex;
 	    else
 	    	return -1;

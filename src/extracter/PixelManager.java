@@ -24,12 +24,12 @@ public class PixelManager {
 			baseY = 87;
 			baseH = 13;
 			mana = new Myrect(800,baseY,15,baseH);
-			text = new Myrect(820,baseY,45,baseH);
+			text = new Myrect(820,baseY,45 + (45)*Constants.isBig,baseH);
 			image = new Myrect(895,baseY,50,baseH);
 			count = new Myrect(950,baseY,15,baseH);
 			gap = 10;
 			heightOfACard = 19;
-			rgbW = 45;
+			rgbW = 45 + (45)*Constants.isBig;
 			rgbH = 13;
 		}
 		
