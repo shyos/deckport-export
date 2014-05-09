@@ -2,6 +2,7 @@ package main;
 
 
 import java.awt.Component;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -17,16 +19,23 @@ import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 
 public class TesseractMain {
-	private static String ocrLanguage = "hs";
-	public static void main(String[] args) {
+	private static String ocrLanguage = "eng";
+	public static void main(String[] args) throws IOException {
 		File imageFile = new File("deneme3.png");
+
+		
+         
 		Tesseract instance = Tesseract.getInstance(); //
 
 		try {
 			setupTesseract();
             loadJarDll("liblept168");
             loadJarDll("libtesseract302");
-			String result = instance.doOCR(imageFile);
+    		WindowCapture WC = new WindowCapture();
+    		BufferedImage image = WC.getImage();
+    		
+			String result = instance.doOCR(image);
+    		//String result = instance.doOCR(imageFile);
 			System.out.println(result);
 
 		} catch (TesseractException e) {

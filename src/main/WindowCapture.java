@@ -1,10 +1,17 @@
 package main;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorConvertOp;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import jna.extra.GDI32Extra;
@@ -104,22 +111,45 @@ public class WindowCapture extends JFrame {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new WindowCapture();
     }
 
     BufferedImage image;
+    private int x = 800;
+    private int y = 84;
+    private int w = 155;
+    private int h = 190+90;
 
-    public WindowCapture() {
+    public WindowCapture() throws IOException {
         HWND hWnd = User32.INSTANCE.FindWindow(null, "Hearthstone");
         this.image = capture(hWnd);
-/*
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+	/*	BufferedImage coloredImage = image;
+		BufferedImage blackNWhite = new BufferedImage(coloredImage.getWidth(),coloredImage.getHeight(),BufferedImage.TYPE_BYTE_BINARY);
+		Graphics2D graphics = blackNWhite.createGraphics();
+		graphics.drawImage(coloredImage, 0, 0, null);
+		coloredImage = blackNWhite;
+        this.image = invertImage(blackNWhite);*/
+  /*    setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setExtendedState(MAXIMIZED_BOTH);
         setVisible(true);*/
     }
-
+    public static BufferedImage invertImage(BufferedImage tempImage) {
+        BufferedImage inputFile = tempImage;
+        for (int x = 0; x < inputFile.getWidth(); x++) {
+            for (int y = 0; y < inputFile.getHeight(); y++) {
+                int rgba = inputFile.getRGB(x, y);
+                Color col = new Color(rgba, true);
+                col = new Color(255 - col.getRed(),
+                                255 - col.getGreen(),
+                                255 - col.getBlue());
+                inputFile.setRGB(x, y, col.getRGB());
+            }
+        }
+        return inputFile;
+    }
     @Override
     public void paint(Graphics g) {
         super.paint(g);
