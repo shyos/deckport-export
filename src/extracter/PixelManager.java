@@ -10,7 +10,9 @@ public class PixelManager {
 	private static int gap;
 	private static int heightOfACard;
 	private static int baseY;
-	
+	private static int baseH;
+	private static int rgbW;
+	private static int rgbH;
 	public static void setPixelManager(){
 		initWithResolution();
 	}
@@ -19,12 +21,16 @@ public class PixelManager {
 	private static void initWithResolution() {
 		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
 		{
-			mana = new Myrect(800,84,15,19);
-			text = new Myrect(820,84,75,19);
-			image = new Myrect(895,84,50,19);
-			count = new Myrect(950,84,15,19);
+			baseY = 87;
+			baseH = 13;
+			mana = new Myrect(800,baseY,15,baseH);
+			text = new Myrect(820,baseY,45,baseH);
+			image = new Myrect(895,baseY,50,baseH);
+			count = new Myrect(950,baseY,15,baseH);
 			gap = 10;
-			baseY = 84;
+			heightOfACard = 19;
+			rgbW = 45;
+			rgbH = 13;
 		}
 		
 	}
@@ -83,6 +89,36 @@ public class PixelManager {
 
 	public static void setBaseY(int baseY) {
 		PixelManager.baseY = baseY;
+	}
+
+	/**
+	 * @return the baseH
+	 */
+	public static int getBaseH() {
+		return baseH;
+	}
+
+	/**
+	 * @param baseH the baseH to set
+	 */
+	public static void setBaseH(int baseH) {
+		PixelManager.baseH = baseH;
+	}
+
+	public static int getRgbW() {
+		return rgbW;
+	}
+
+	public static void setRgbW(int rgbW) {
+		PixelManager.rgbW = rgbW;
+	}
+
+	public static int getRgbH() {
+		return rgbH;
+	}
+
+	public static void setRgbH(int rgbH) {
+		PixelManager.rgbH = rgbH;
 	}
 
 

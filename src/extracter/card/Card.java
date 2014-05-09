@@ -1,5 +1,9 @@
 package extracter.card;
 
+import java.awt.image.BufferedImage;
+
+import extracter.Constants;
+
 public class Card {
 	private String name;
 	private String description;
@@ -15,7 +19,10 @@ public class Card {
 	private String image_link;
 	private int patch_id;
 	private int hearthhead_id;
-	private int deckImageHash;
+	
+	private int[][] h_1024x768;
+	//New deckImageHash values should be added according to resolution
+	
 	public String getName() {
 		return name;
 	}
@@ -100,11 +107,28 @@ public class Card {
 	public void setHearthhead_id(int hearthhead_id) {
 		this.hearthhead_id = hearthhead_id;
 	}
-	public int getDeckImageHash() {
-		return deckImageHash;
+	public int[][] getH_1024x768() {
+		return h_1024x768;
 	}
-	public void setDeckImageHash(int deckImageHash) {
-		this.deckImageHash = deckImageHash;
+	public void setH_1024x768(int[][] h_1024x768) {
+		this.h_1024x768 = h_1024x768;
+	}
+	public int[][] getHash() {
+
+		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
+		{
+			if(h_1024x768 != null)
+				return h_1024x768;
+			else
+				return null;
+		}
+		return null;
+	}
+	public void setHash(int[][] cardRGB) {
+		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
+		{
+			h_1024x768 = cardRGB;
+		}
 	}
 	 
 }

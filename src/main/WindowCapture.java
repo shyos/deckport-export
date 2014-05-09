@@ -116,25 +116,33 @@ public class WindowCapture extends JFrame {
     }
 
     BufferedImage image;
-    private int x = 800;
+    private int x = 820;
     private int y = 84;
-    private int w = 155;
-    private int h = 190+90;
+    private int w = 50;
+    private int h = 19;
 
     public WindowCapture() throws IOException {
         HWND hWnd = User32.INSTANCE.FindWindow(null, "Hearthstone");
         this.image = capture(hWnd);
-
-	/*	BufferedImage coloredImage = image;
+       /* this.image = image.getSubimage(x,y,w,h);
+		BufferedImage coloredImage = image;
 		BufferedImage blackNWhite = new BufferedImage(coloredImage.getWidth(),coloredImage.getHeight(),BufferedImage.TYPE_BYTE_BINARY);
 		Graphics2D graphics = blackNWhite.createGraphics();
 		graphics.drawImage(coloredImage, 0, 0, null);
 		coloredImage = blackNWhite;
         this.image = invertImage(blackNWhite);*/
-  /*    setDefaultCloseOperation(EXIT_ON_CLOSE);
-        pack();
+    /*  setDefaultCloseOperation(EXIT_ON_CLOSE);
+        pack();dene sonra bana
         setExtendedState(MAXIMIZED_BOTH);
         setVisible(true);*/
+    }
+    public void showFrame(BufferedImage image)
+    {
+    	this.image = image;
+    	// setDefaultCloseOperation(EXIT_ON_CLOSE);
+         pack();
+         setExtendedState(MAXIMIZED_BOTH);
+         setVisible(true);
     }
     public static BufferedImage invertImage(BufferedImage tempImage) {
         BufferedImage inputFile = tempImage;
