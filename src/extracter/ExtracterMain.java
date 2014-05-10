@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import extracter.GUI.WB.TrainingApp;
 import extracter.card.Card;
 import main.TesseractMain;
 import main.WindowCapture;
@@ -27,7 +28,9 @@ public class ExtracterMain {
 	public static ArrayList<Card> cards;
 	public static Map<String, Card> cardMap;
 	public static Map<Integer, Card> cardIdMap;
+	
 	public static ArrayList<Card> GUICards;
+	public static Map<Integer, Card> GUICardsIdMap;
 	public static WindowCapture WC;
 	public static BufferedImage image;
 	public static int numberOfCardInDeck = 20;
@@ -57,14 +60,20 @@ public class ExtracterMain {
 		//Sets PixelManager with resolution
 		PixelManager.setPixelManager();
 
-		//Read card list from txt, build maps
+		//Read card list
+		readCards();
+		
+		//Read GUI card list from txt
+		readCardsForTraining();
+
+	}
+	
+	//Read card list from txt, build maps
+	private static void readCards()
+	{
 		String cardsText = readFromFile("cards.txt");
 		Type mapType = new TypeToken<List<Card>>(){}.getType(); 
 		cards = new Gson().fromJson(cardsText, mapType);
-		
-		//Read GUI card list from txt
-		String guicardsText = readFromFile("guicards.txt");
-		GUICards =  new Gson().fromJson(guicardsText, mapType);
 		
 		cardMap = new HashMap<String, Card>();
 		cardIdMap = new HashMap<Integer, Card>();
@@ -72,6 +81,19 @@ public class ExtracterMain {
 		{
 			cardMap.put(card.getName(), card);
 			cardIdMap.put(card.getHearthhead_id(), card);
+		}
+	}
+	
+	//Read card list for Training App
+	private static void readCardsForTraining()
+	{
+		String guicardsText = readFromFile("guicards.txt");
+		Type mapType = new TypeToken<List<Card>>(){}.getType(); 
+		GUICards =  new Gson().fromJson(guicardsText, mapType);
+		GUICardsIdMap = new HashMap<Integer, Card>();
+		for(Card card : GUICards)
+		{
+			GUICardsIdMap.put(card.getHearthhead_id(), card);
 		}
 	}
 	
@@ -193,6 +215,12 @@ public class ExtracterMain {
 		//Write to a file
 		writeToFile(cards, "cards.txt");
 	}
+
+	// Used by TrainingAPP GUI to fetch card images
+	public static void getCardImage(int k)
+	{
+		ExtractManager.cropImage(k, image);
+	}
 	
 	// Function which is only used by CrawlApp which is an GUI helps users to define cards
 	public static int saveSingleCard(int k, String card_name)
@@ -202,7 +230,7 @@ public class ExtracterMain {
 		
 		while(!cardMap.keySet().contains(card_name))
 		{
-			TesseractMain.showMessageDialog(null, (k+1) + ". kartin adini yanlis girdiniz lutfen tekrar giriniz! ");
+			TrainingApp.showMessageDialog(null, (k+1) + ". kartin adini yanlis girdiniz lutfen tekrar giriniz! ");
 			return k;
 		}
 		
@@ -219,8 +247,11 @@ public class ExtracterMain {
 					      }} 
 					card.setHash(cardRGB);
 					Card tempCard = card;
-					GUICards.add(tempCard);
-					TesseractMain.showMessageDialog(null, (k+1) + ". kart icin islem basariyla tamamlanmistir.");
+					
+					if(!GUICardsIdMap.keySet().contains(tempCard.getHearthhead_id()))
+						GUICards.add(tempCard);
+					GUICardsIdMap.put(tempCard.getHearthhead_id(), tempCard);
+					
 					System.out.println((k+1) + ". kart icin islem basariyla tamamlanmistir.");
 					return k+1;
 				}
