@@ -33,7 +33,7 @@ public class ExtracterMain {
 	public static Map<Integer, Card> GUICardsIdMap;
 	public static WindowCapture WC;
 	public static BufferedImage image;
-	public static int numberOfCardInDeck = 20;
+	public static int numberOfCardInDeck = 1;
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -222,7 +222,7 @@ public class ExtracterMain {
 		ExtractManager.cropImage(k, image);
 	}
 	
-	// Function which is only used by CrawlApp which is an GUI helps users to define cards
+	// Used by TrainingAPP GUI to save single card hash (Only for Training Purposes)
 	public static int saveSingleCard(int k, String card_name)
 	{
 		ExtractManager.cropImage(k, image);

@@ -38,6 +38,8 @@ public class TrainDataMenu extends JPanel {
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				// Initilize TrianDataCardScreen for the first card
 				TrainingApp.card3.getLblCardorder().setText("1/" + (TrainingApp.card2.getNumberBox().getSelectedIndex()+1));
 				ExtracterMain.getCardImage(TrainingApp.card3.getCurrentCardOrder());
 				TrainingApp.card3.getLblCardimage().setIcon(new ImageIcon(ExtractManager.subImage));
