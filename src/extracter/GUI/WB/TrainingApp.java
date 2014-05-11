@@ -26,6 +26,7 @@ public class TrainingApp {
 	public static JPanel panel;
 	public static TrainDataMenu card2 = new TrainDataMenu();
 	public static TrainDataCardScreen card3 = new TrainDataCardScreen();
+	public static ExportScreen card4 = new ExportScreen();
 	/**
 	 * Launch the application.
 	 */
@@ -53,7 +54,6 @@ public class TrainingApp {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		ExtracterMain.buildEnvironment();
 		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 408, 449);
@@ -65,6 +65,7 @@ public class TrainingApp {
 		JPanel card1 = new JPanel();
 		card2 = new TrainDataMenu();
 		card3 = new TrainDataCardScreen();
+		card4 = new ExportScreen();
 		
 		panel = new JPanel();
 		panel.setBounds(0, 0, 390, 377);
@@ -73,6 +74,7 @@ public class TrainingApp {
 		panel.add(card1,"HOME");
 		panel.add(card2,"TRAINMENU");
 		panel.add(card3,"CARD");
+		panel.add(card4,"EXPORT");
 		
 		Button homeButton = new Button("Home");
 		homeButton.addActionListener(new ActionListener() {
@@ -91,6 +93,15 @@ public class TrainingApp {
 			}
 		});
 		menuBar.add(trainButton);
+		
+		Button exportButton = new Button("Export");
+		exportButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout)(panel.getLayout());
+			    cl.show(panel, "EXPORT");
+			}
+		});
+		menuBar.add(exportButton);
 		
 		Button aboutButton = new Button("About");
 		menuBar.add(aboutButton);

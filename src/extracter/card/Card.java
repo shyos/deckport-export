@@ -21,9 +21,11 @@ public class Card {
 	private int hearthhead_id;
 	
 	private int[][] h_1024x768;
-	private int[][] h_1024x768big;
 	//New deckImageHash values should be added according to resolution
 	
+	public Card(String name) {
+		this.name = name;
+	}
 	public String getName() {
 		return name;
 	}
@@ -118,36 +120,19 @@ public class Card {
 
 		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
 		{
-			if(Constants.isBig == 1)
-			{
-				if(h_1024x768big != null)
-					return h_1024x768big;
-				else return null;
-			}
+			if(h_1024x768 != null)
+				return h_1024x768;
 			else
-			{
-				if(h_1024x768 != null)
-					return h_1024x768;
-				else
-					return null;
-			}
+				return null;
 		}
 		return null;
 	}
 	public void setHash(int[][] cardRGB) {
 		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
 		{
-			if(Constants.isBig == 1)
-				h_1024x768big = cardRGB;
-			else
+
 				h_1024x768 = cardRGB;
 		}
 	}
-	public int[][] getH_1024x768big() {
-		return h_1024x768big;
-	}
-	public void setH_1024x768big(int[][] h_1024x768big) {
-		this.h_1024x768big = h_1024x768big;
-	}
-	 
+
 }

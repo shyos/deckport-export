@@ -21,6 +21,8 @@ import com.google.gson.reflect.TypeToken;
 
 import extracter.GUI.WB.TrainingApp;
 import extracter.card.Card;
+import extracter.card.Deck;
+import extracter.card.DeckItem;
 import main.TesseractMain;
 import main.WindowCapture;
 
@@ -33,17 +35,28 @@ public class ExtracterMain {
 	public static Map<Integer, Card> GUICardsIdMap;
 	public static WindowCapture WC;
 	public static BufferedImage image;
-	public static int numberOfCardInDeck = 1;
+	public static int numberOfCardInDeck = 20;
 	
 	public static void main(String[] args) throws IOException {
 		
 		buildEnvironment();   
-	//	saveDeckManuel(image);		
-		saveDeckAuto(image);	
+		saveDeckManuel(image);		
+	//	saveDeckAuto(image);	
 	//	importNewCardsToOriginals("guicards.txt");
 
 	}
 	
+	public static Deck exportDeck(String deckName)
+	{
+	
+		ArrayList<DeckItem> deckItems = new ArrayList<DeckItem>();
+		
+		buildEnvironment();
+		deckItems = fetchCards(image);
+		
+		return new Deck(deckItems, deckName);
+		
+	}
 	// Sets up default variables and build environment
 	public static void buildEnvironment()
 	{
@@ -67,7 +80,7 @@ public class ExtracterMain {
 		readCardsForTraining();
 
 	}
-	
+
 	//Read card list from txt, build maps
 	private static void readCards()
 	{
@@ -103,65 +116,77 @@ public class ExtracterMain {
 
 	}
 	// Compares current card with others (Algortihm included)
-	private static int findSimilar(BufferedImage img1)
+	private static int findSimilar(BufferedImage img)
 	{
+		return findSimilarWithIndex(img, 1);
+	}
+	
+	// Sometimes images position changes few lines, to overcome this also check those coordinates.
+	private static int findSimilarWithIndex(BufferedImage img1,int lineIndex) {
 	    int width1 = img1.getWidth(null);
 	    int height1 = img1.getHeight(null);
 
-	    int[][] imgRGB = new int [height1][width1];
-	    for (int i = 0; i < height1; i++) {
-		      for (int j = 0; j < width1; j++) {  
-				imgRGB[i][j] = img1.getRGB(j, i);
-		      }
-		  }
 	    double maxDiff = 100;
 	    double diffPercent = 100;
 	    int cardIndex = -1;
-	    for(Card card : cards)
+	    
+	    for(int h = 0; h<=lineIndex; h++)
 	    {
-	    	if(card.getHash()!=null)
-	    	{
-			    long diff = 0;
-			    
-			    int[][] cardRGB = card.getHash();
-			    for (int i = 0; i < height1; i++) {
-			      for (int j = 0; j < width1; j++) {
-			        int rgb1 = imgRGB[i][j];
-			        int rgb2 = cardRGB[i][j];
-			        int r1 = (rgb1 >> 16) & 0xff;
-			        int g1 = (rgb1 >>  8) & 0xff;
-			        int b1 = (rgb1      ) & 0xff;
-			        int r2 = (rgb2 >> 16) & 0xff;
-			        int g2 = (rgb2 >>  8) & 0xff;
-			        int b2 = (rgb2      ) & 0xff;
-			        diff += Math.abs(r1 - r2);
-			        diff += Math.abs(g1 - g2);
-			        diff += Math.abs(b1 - b2);
+		    int[][] imgRGB = new int [height1][width1];
+		    for (int i = h; i < height1; i++) {
+			      for (int j = 0; j < width1; j++) {  
+					imgRGB[i-h][j] = img1.getRGB(j, i);
 			      }
-			    }
-			    double n = width1 * height1 * 3;
-			    double p = diff / n / 255.0;
-			    diffPercent = (p * 100.0);
-			    //System.out.println("diff percent: " + diffPercent);
-			    if(diffPercent < maxDiff)
-			    {
-			    	maxDiff = diffPercent;
-			    	cardIndex = card.getHearthhead_id();
-			    	System.out.println("Possible: " + card.getName());
-			    }
-			    if(diffPercent < 2) break;
-	    	}
+			 }
+		
+		    for(Card card : cards)
+		    {
+		    	if(card.getHash()!=null)
+		    	{
+				    long diff = 0;
+				    
+				    int[][] cardRGB = card.getHash();
+				    for (int i = 0; i < height1; i++) {
+				      for (int j = 0; j < width1; j++) {
+				        int rgb1 = imgRGB[i][j];
+				        int rgb2 = cardRGB[i][j];
+				        int r1 = (rgb1 >> 16) & 0xff;
+				        int g1 = (rgb1 >>  8) & 0xff;
+				        int b1 = (rgb1      ) & 0xff;
+				        int r2 = (rgb2 >> 16) & 0xff;
+				        int g2 = (rgb2 >>  8) & 0xff;
+				        int b2 = (rgb2      ) & 0xff;
+				        diff += Math.abs(r1 - r2);
+				        diff += Math.abs(g1 - g2);
+				        diff += Math.abs(b1 - b2);
+				      }
+				    }
+				    double n = width1 * height1 * 3;
+				    double p = diff / n / 255.0;
+				    diffPercent = (p * 100.0);
+				    //System.out.println("diff percent: " + diffPercent);
+				    if(diffPercent < maxDiff)
+				    {
+				    	maxDiff = diffPercent;
+				    	cardIndex = card.getHearthhead_id();
+				    	System.out.println("Level: " + (h+1) + " Possible: " + card.getName() + " Similarity: " + diffPercent);
+				    }
+				    if(diffPercent < 2) break;
+		    	}
+		    	if(diffPercent < 2) break;
+		    }
+		    if(diffPercent < 2) break;
 	    }
-	    System.out.println(cardIndex + " - " + diffPercent);
 	    if(diffPercent < 25)
 	    	return cardIndex;
 	    else
 	    	return -1;
 	}
-	
+
 	// Deck Export
-	private static void saveDeckAuto(BufferedImage image) {
+	private static ArrayList<DeckItem> fetchCards(BufferedImage image) {
 		
+		ArrayList<DeckItem> deckItems = new ArrayList<DeckItem>();
 		for(int i=0;i<numberOfCardInDeck;i++)
 		{
 			System.out.println("Giren Kart " + (i+1) );
@@ -170,12 +195,15 @@ public class ExtracterMain {
 			if(cardIndex != -1)
 			{
 				System.out.println((i+1) + "/"+ numberOfCardInDeck + " - " + cardIdMap.get(cardIndex).getName());
+				deckItems.add(new DeckItem(cardIdMap.get(cardIndex)));
 			}
 			else
 			{
 				System.out.println("Bu kart henüz sisteme tanýtýlmamýþ.");
+				deckItems.add(new DeckItem(new Card("UNKNOWN")));
 			}
-		}		
+		}	
+		return deckItems;
 	}
 
 	// Manuel Card Defining
@@ -261,7 +289,7 @@ public class ExtracterMain {
 	}
 
 	// Writes cards to txt
-	public static void writeToFile(ArrayList<Card> cards, String filename) {
+	public static void writeToFile(Object cards, String filename) {
 		try {
 
 			File file = new File(filename);
@@ -336,5 +364,9 @@ public class ExtracterMain {
 		}
 		
 		writeToFile(resultList, "cards.txt");
+	}
+
+	public static String getClientResolution() {
+		return image.getWidth() + "x" + image.getHeight();
 	}
 }

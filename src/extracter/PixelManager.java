@@ -3,16 +3,28 @@ package extracter;
 import main.Myrect;
 
 public class PixelManager {
-	private static Myrect mana;
+	/*private static Myrect mana;
 	private static Myrect text;
 	private static Myrect image;
-	private static Myrect count;
-	private static int gap;
-	private static int heightOfACard;
-	private static int baseY;
-	private static int baseH;
-	private static int rgbW;
-	private static int rgbH;
+	private static Myrect count;*/
+	
+	private static int x_FirstCard;			// X of first card
+	private static int y_FirstCard;			// Y of first card
+	
+	private static int x_Mana;				// X of Mana Segment
+	private static int x_Text;				// X of Text Segment
+	private static int x_Image;				// X of Image Segment
+	private static int x_Count;				// X of Count Segment
+	
+	private static int w_Mana;				// W of Mana Segment
+	private static int w_Text;				// W of Text Segment
+	private static int w_Image;				// W of Image Segment
+	private static int w_Count;				// W of Count Segment
+	
+	private static int cropHeight;			// Height of the parts that are cropped from both top and bottom of a card
+	private static int heightOfACard;		// Height of a single card without crop
+	
+	private static int gap;					// Gap between two cards
 	public static void setPixelManager(){
 		initWithResolution();
 	}
@@ -21,105 +33,67 @@ public class PixelManager {
 	private static void initWithResolution() {
 		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
 		{
-			baseY = 87;
-			baseH = 13;
-			mana = new Myrect(800,baseY,15,baseH);
-			text = new Myrect(820,baseY,45 + (45)*Constants.isBig,baseH);
-			image = new Myrect(895,baseY,50,baseH);
-			count = new Myrect(950,baseY,15,baseH);
-			gap = 10;
-			heightOfACard = 19;
-			rgbW = 45 + (45)*Constants.isBig;
-			rgbH = 13;
+			x_FirstCard = 800;
+			y_FirstCard = 80;
+			
+			x_Mana = 800;
+			x_Text = 821;
+			x_Image = 895;
+			x_Count = 950;
+			
+			w_Mana = 15;
+			w_Text = 90;
+			w_Image = 50;
+			w_Count = 12;
+			
+			gap = 1;
+			heightOfACard = 28;
+			cropHeight = 7;				
 		}
 		
 	}
 
 	public static Myrect getMana() {
-		return mana;
-	}
-
-	public static void setMana(Myrect mana) {
-		PixelManager.mana = mana;
+		return new Myrect(x_Mana, getBaseY(), w_Mana, getBaseH());
 	}
 
 	public static Myrect getText() {
-		return text;
-	}
 
-	public static void setText(Myrect text) {
-		PixelManager.text = text;
+		return new Myrect(x_Text, getBaseY(), w_Text, getBaseH());
 	}
 
 	public static Myrect getImage() {
-		return image;
+		return new Myrect(x_Image, getBaseY(), w_Image, getBaseH());
 	}
-
-	public static void setImage(Myrect image) {
-		PixelManager.image = image;
-	}
-
+	
 	public static Myrect getCount() {
-		return count;
+		return new Myrect(x_Count, getBaseY(), w_Count, getBaseH());
 	}
 
-	public static void setCount(Myrect count) {
-		PixelManager.count = count;
+	public static int getBaseY() {
+		return y_FirstCard + cropHeight;
 	}
-
-	public static int getGap() {
-		return gap;
-	}
-
-	public void setGap(int gap) {
-		PixelManager.gap = gap;
+	
+	public static int getBaseH(){
+		return heightOfACard - 2*cropHeight;
 	}
 
 	public static int getHeightOfACard() {
 		return heightOfACard;
 	}
 
-	public static void setHeightOfACard(int heightOfACard) {
-		PixelManager.heightOfACard = heightOfACard;
-	}
-
-	public static int getBaseY() {
-		return baseY;
-	}
-
-	public static void setBaseY(int baseY) {
-		PixelManager.baseY = baseY;
-	}
-
-	/**
-	 * @return the baseH
-	 */
-	public static int getBaseH() {
-		return baseH;
-	}
-
-	/**
-	 * @param baseH the baseH to set
-	 */
-	public static void setBaseH(int baseH) {
-		PixelManager.baseH = baseH;
-	}
-
-	public static int getRgbW() {
-		return rgbW;
-	}
-
-	public static void setRgbW(int rgbW) {
-		PixelManager.rgbW = rgbW;
+	public static int getGap() {
+		return gap;
 	}
 
 	public static int getRgbH() {
-		return rgbH;
+		return heightOfACard - 2*cropHeight;
 	}
 
-	public static void setRgbH(int rgbH) {
-		PixelManager.rgbH = rgbH;
+	public static int getRgbW() {
+		return w_Text;
 	}
+
 
 
 }

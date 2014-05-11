@@ -2,13 +2,13 @@ package extracter;
 
 import main.Myrect;
 
-public class DeckItem {
+public class DeckItemImage {
 	private Myrect mana;
 	private Myrect text;
 	private Myrect image;
 	private Myrect count;
 	private int baseY;
-	public DeckItem(int order)
+	public DeckItemImage(int order)
 	{
 		getCardByOrder(order);
 		this.mana = (PixelManager.getMana());
@@ -16,7 +16,6 @@ public class DeckItem {
 		this.image = (PixelManager.getImage());
 		this.count = (PixelManager.getCount());	
 		setBaseYs();
-
 	}
 	private void setBaseYs() {
 		// TODO Auto-generated method stub

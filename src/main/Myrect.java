@@ -37,4 +37,7 @@ public class Myrect {
 	public void setH(int h) {
 		this.h = h;
 	}
+	public String toString(){
+		return x +"," +y  +"," + w +"," + h; 
+	}
 }

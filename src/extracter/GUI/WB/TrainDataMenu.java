@@ -38,19 +38,32 @@ public class TrainDataMenu extends JPanel {
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Initilize Environment
+				ExtracterMain.buildEnvironment();
+				
+				// Get users resolution
+				String resolution = ExtracterMain.getClientResolution();
+				String selectedResolution = comboBox.getSelectedItem().toString();
+				
+				// Check resolution
+				if(!selectedResolution.equals(resolution))
+					TrainingApp.showMessageDialog(null, "Your current Hearthstone.exe resolution " + resolution + " is not matched with " + selectedResolution);
 				
 				// Initilize TrianDataCardScreen for the first card
-				TrainingApp.card3.getLblCardorder().setText("1/" + (TrainingApp.card2.getNumberBox().getSelectedIndex()+1));
-				ExtracterMain.getCardImage(TrainingApp.card3.getCurrentCardOrder());
-				TrainingApp.card3.getLblCardimage().setIcon(new ImageIcon(ExtractManager.subImage));
-				CardLayout cl = (CardLayout)(TrainingApp.panel.getLayout());
-			    cl.show(TrainingApp.panel, "CARD");
+				else
+				{
+					TrainingApp.card3.getLblCardorder().setText("1/" + (TrainingApp.card2.getNumberBox().getSelectedIndex()+1));
+					ExtracterMain.getCardImage(TrainingApp.card3.getCurrentCardOrder());
+					TrainingApp.card3.getLblCardimage().setIcon(new ImageIcon(ExtractManager.subImage));
+					CardLayout cl = (CardLayout)(TrainingApp.panel.getLayout());
+				    cl.show(TrainingApp.panel, "CARD");
+				}
 			}
 		});
 		btnStart.setBounds(177, 189, 105, 25);
 		add(btnStart);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1024x768"}));
 		comboBox.setBounds(177, 117, 105, 22);
 		add(comboBox);

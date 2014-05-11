@@ -22,5 +22,9 @@ public class Resolution {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
+	public String toString()
+	{
+		return width + "x" + height;
+		
+	}
 }

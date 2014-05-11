@@ -12,7 +12,7 @@ public class ExtractManager {
 	
 	public static void cropImage(int order, BufferedImage image)
 	{
-		DeckItem card = new DeckItem(order);
+		DeckItemImage card = new DeckItemImage(order);
 		
 		image = image.getSubimage(card.getText().getX(),
 								  card.getText().getY(),
