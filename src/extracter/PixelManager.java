@@ -55,7 +55,7 @@ public class PixelManager {
 			cropHeight = 7;	
 			
 			x_Search = 480;
-			y_Search = 720;
+			y_Search = 722;
 			x_SearchedCard = 120;
 			y_SearchedCard = 250;
 			x_Scroll = 1000;

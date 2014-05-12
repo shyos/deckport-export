@@ -1,6 +1,7 @@
 package extracter;
 
 import java.awt.AWTException;
+import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -40,23 +41,32 @@ public class RobotManager {
 		HWND hWnd = user32.FindWindow(null, "Hearthstone");
 		user32.ShowWindow(hWnd, User32.SW_SHOW);
 		user32.SetForegroundWindow(hWnd);
-		RECT bounds = new RECT();
-		User32Extra.INSTANCE.GetWindowRect(hWnd, bounds);
+		RECT rect = new RECT();
+		User32Extra.INSTANCE.GetWindowRect(hWnd, rect);
+		RECT bounds2 = new RECT();
+		User32Extra.INSTANCE.GetClientRect(hWnd, bounds2);
+		int x = rect.left;
+		int y = rect.top;
+		int width = rect.right - rect.left;
+		int height = rect.bottom - rect.top;
+		Rectangle result = new Rectangle(x, y, width, height);
+	/*	Thread.sleep(1000);
+		PixelManager.setPixelManager();
 		x = bounds.toRectangle().x;
 		y = bounds.toRectangle().y;
 		List<DeckItem> cards = deck.getCards();
-		for(DeckItem card : cards)
+		for(DeckItem deckItem : cards)
 		{
-			addCardToDeck(x,y,card.getCard().getName());
-		}
+			addCardToDeck(x,y,deckItem);
+		}*/
 	}
 
-	public static void addCardToDeck(int x, int y, String cardName)
+	public static void addCardToDeck(int x, int y, DeckItem deckItem)
 			throws InterruptedException {
-		searchCard(x, y, cardName);
+		searchCard(x, y, deckItem);
 	}
 
-	public static void searchCard(int x, int y, String cardName)
+	public static void searchCard(int x, int y, DeckItem deckItem)
 			throws InterruptedException {
 		Robot robot = null;
 		try {
@@ -65,7 +75,7 @@ public class RobotManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		Thread.sleep(100);
 		// Move mouse to search area
 		robot.mouseMove(x + PixelManager.getX_Search(),
 				y + PixelManager.getY_Search());
@@ -74,35 +84,39 @@ public class RobotManager {
 
 		// Type card name to search area
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		StringSelection stringSelection = new StringSelection(cardName);
+		StringSelection stringSelection = new StringSelection(deckItem.getCard().getName());
+		System.out.println(deckItem.getCard().getName());
 		clipboard.setContents(stringSelection, new ClipboardOwner() {
 			@Override
 			public void lostOwnership(Clipboard clipboard, Transferable contents) {
 
 			}
 		});
+		
 		robot.keyPress(KeyEvent.VK_CONTROL);
 		robot.keyPress(KeyEvent.VK_V);
 		robot.keyRelease(KeyEvent.VK_V);
 		robot.keyRelease(KeyEvent.VK_CONTROL);
-
 		// Search card
+		Thread.sleep(100);
 		robot.keyPress(KeyEvent.VK_ENTER);
 		robot.keyRelease(KeyEvent.VK_ENTER);
-
 		// Add card
-		Thread.sleep(200);
-		robot.mouseMove(x + PixelManager.getX_SearchedCard(),
-				y + PixelManager.getY_SearchedCard());
-		robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-		robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-
+		for(int i=0;i<deckItem.getCount();i++)
+		{
+			Thread.sleep(100);
+			robot.mouseMove(x + PixelManager.getX_SearchedCard(),
+					y + PixelManager.getY_SearchedCard());
+			robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+			robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+		}
 		// Clear Search
-		Thread.sleep(200);
+		Thread.sleep(100);
 		robot.mouseMove(x + PixelManager.getX_Search(),
 				y + PixelManager.getY_Search());
 		robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
 		robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+		Thread.sleep(100);
 		robot.keyPress(KeyEvent.VK_DELETE);
 		robot.keyRelease(KeyEvent.VK_DELETE);
 	}
