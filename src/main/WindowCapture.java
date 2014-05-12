@@ -120,10 +120,10 @@ public class WindowCapture extends JFrame {
     private int y = 84;
     private int w = 50;
     private int h = 19;
-
+    private HWND hWnd;
     public WindowCapture() throws IOException {
-        HWND hWnd = User32.INSTANCE.FindWindow(null, "Hearthstone");
-        this.image = capture(hWnd);
+        hWnd = User32.INSTANCE.FindWindow(null, "Hearthstone");
+        captureHwnd();
        /* this.image = image.getSubimage(x,y,w,h);
 		BufferedImage coloredImage = image;
 		BufferedImage blackNWhite = new BufferedImage(coloredImage.getWidth(),coloredImage.getHeight(),BufferedImage.TYPE_BYTE_BINARY);
@@ -135,6 +135,9 @@ public class WindowCapture extends JFrame {
         pack();dene sonra bana
         setExtendedState(MAXIMIZED_BOTH);
         setVisible(true);*/
+    }
+    public void captureHwnd(){
+    	this.image = capture(hWnd);
     }
     public void showFrame(BufferedImage image)
     {
@@ -174,6 +177,12 @@ public class WindowCapture extends JFrame {
 	 */
 	public void setImage(BufferedImage image) {
 		this.image = image;
+	}
+	public HWND gethWnd() {
+		return hWnd;
+	}
+	public void sethWnd(HWND hWnd) {
+		this.hWnd = hWnd;
 	}
 
 

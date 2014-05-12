@@ -19,6 +19,7 @@ import extracter.ExtracterMain;
 
 import java.awt.Choice;
 import java.awt.CardLayout;
+import javax.swing.JButton;
 
 public class TrainingApp {
 
@@ -27,6 +28,7 @@ public class TrainingApp {
 	public static TrainDataMenu card2 = new TrainDataMenu();
 	public static TrainDataCardScreen card3 = new TrainDataCardScreen();
 	public static ExportScreen card4 = new ExportScreen();
+	public static ImportScreen card5 = new ImportScreen();
 	/**
 	 * Launch the application.
 	 */
@@ -75,6 +77,7 @@ public class TrainingApp {
 		panel.add(card2,"TRAINMENU");
 		panel.add(card3,"CARD");
 		panel.add(card4,"EXPORT");
+		panel.add(card5,"IMPORT");
 		
 		Button homeButton = new Button("Home");
 		homeButton.addActionListener(new ActionListener() {
@@ -102,6 +105,15 @@ public class TrainingApp {
 			}
 		});
 		menuBar.add(exportButton);
+		
+		Button importButton = new Button("Import");
+		importButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout)(panel.getLayout());
+			    cl.show(panel, "IMPORT");
+			}
+		});
+		menuBar.add(importButton);
 		
 		Button aboutButton = new Button("About");
 		menuBar.add(aboutButton);

@@ -2,12 +2,7 @@ package extracter;
 
 import main.Myrect;
 
-public class PixelManager {
-	/*private static Myrect mana;
-	private static Myrect text;
-	private static Myrect image;
-	private static Myrect count;*/
-	
+public class PixelManager {	
 	private static int x_FirstCard;			// X of first card
 	private static int y_FirstCard;			// Y of first card
 	
@@ -25,6 +20,15 @@ public class PixelManager {
 	private static int heightOfACard;		// Height of a single card without crop
 	
 	private static int gap;					// Gap between two cards
+	
+	// Varialbes used by RobotManager
+	private static int x_Search;			// X of Search
+	private static int y_Search;			// Y of Search
+	private static int x_SearchedCard;		// X of Card
+	private static int y_SearchedCard;		// Y of Card
+	private static int x_Scroll;			// X of Deck Scroller
+	private static int y_Scroll;			// Y of Deck Scroller
+	
 	public static void setPixelManager(){
 		initWithResolution();
 	}
@@ -48,7 +52,14 @@ public class PixelManager {
 			
 			gap = 1;
 			heightOfACard = 28;
-			cropHeight = 7;				
+			cropHeight = 7;	
+			
+			x_Search = 480;
+			y_Search = 720;
+			x_SearchedCard = 120;
+			y_SearchedCard = 250;
+			x_Scroll = 1000;
+			y_Scroll = 100;
 		}
 		
 	}
@@ -92,6 +103,54 @@ public class PixelManager {
 
 	public static int getRgbW() {
 		return w_Text;
+	}
+
+	public static int getX_Search() {
+		return x_Search;
+	}
+
+	public static void setX_Search(int x_Search) {
+		PixelManager.x_Search = x_Search;
+	}
+
+	public static int getY_Search() {
+		return y_Search;
+	}
+
+	public static void setY_Search(int y_Search) {
+		PixelManager.y_Search = y_Search;
+	}
+
+	public static int getX_SearchedCard() {
+		return x_SearchedCard;
+	}
+
+	public static void setX_SearchedCard(int x_SearchedCard) {
+		PixelManager.x_SearchedCard = x_SearchedCard;
+	}
+
+	public static int getY_SearchedCard() {
+		return y_SearchedCard;
+	}
+
+	public static void setY_SearchedCard(int y_SearchedCard) {
+		PixelManager.y_SearchedCard = y_SearchedCard;
+	}
+
+	public static int getX_Scroll() {
+		return x_Scroll;
+	}
+
+	public static void setX_Scroll(int x_Scroll) {
+		PixelManager.x_Scroll = x_Scroll;
+	}
+
+	public static int getY_Scroll() {
+		return y_Scroll;
+	}
+
+	public static void setY_Scroll(int y_Scroll) {
+		PixelManager.y_Scroll = y_Scroll;
 	}
 
 

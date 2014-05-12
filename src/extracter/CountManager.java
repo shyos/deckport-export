@@ -1,8 +1,16 @@
 package extracter;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import main.WindowCapture;
 import extracter.card.Card;
@@ -10,17 +18,17 @@ import extracter.card.CardCount;
 
 public class CountManager {
 
+	private static ArrayList<CardCount> cardCounts;
 	private static BufferedImage subImage;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ExtracterMain.buildEnvironment();
+		readCardCounts();
 		saveCardCountManuel(ExtracterMain.image);
+		
 	}
 	public static void saveCardCountManuel(BufferedImage image) {
-
 		Scanner scanIn = new Scanner(System.in);
- 
-		ArrayList<CardCount> ccList = new ArrayList<CardCount>();
 		//Match Cards
 		for(int k=0;k<2;k++)
 		{
@@ -36,10 +44,10 @@ public class CountManager {
 			        countRGB[i][j] = subImage.getRGB(j, i);
 			      }} 
 			CardCount myCC = new CardCount(card_count, card_count_type, countRGB);
-			ccList.add(myCC);
+			cardCounts.add(myCC);
 		}
 		//Write to a file
-		ExtracterMain.writeToFile(ccList, "cardcounts.txt");
+		ExtracterMain.writeToFile(cardCounts, "cardcounts.txt");
 	}
 	public static void cropImage(int order, BufferedImage image)
 	{
@@ -52,5 +60,36 @@ public class CountManager {
 
 	    subImage = image;
 	  //  ExtracterMain.WC.showFrame(subImage);
+	}
+	private static void readCardCounts() {
+		String guicardsText = readFromFile("cardcounts.txt");
+		Type mapType = new TypeToken<List<CardCount>>(){}.getType(); 
+		cardCounts =  new Gson().fromJson(guicardsText, mapType);
+		
+	}
+	private static String readFromFile(String filename) {
+		 
+		BufferedReader br = null;
+		String cardsText = "";
+		try {
+ 
+			String sCurrentLine;
+ 
+			br = new BufferedReader(new FileReader(filename));
+ 
+			while ((sCurrentLine = br.readLine()) != null) {
+				cardsText+=sCurrentLine;
+			}
+ 
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return cardsText;
 	}
 }

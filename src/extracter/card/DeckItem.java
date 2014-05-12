@@ -2,9 +2,14 @@ package extracter.card;
 
 public class DeckItem {
 	private Card card;
-	private int count = 1;
+	private int count;
 	public DeckItem(Card card){
 		this.setCard(card);
+	}
+	public DeckItem(Card card, int count)
+	{
+		this.card = card;
+		this.count = count;
 	}
 	public Card getCard() {
 		return card;

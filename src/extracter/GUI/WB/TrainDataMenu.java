@@ -40,17 +40,8 @@ public class TrainDataMenu extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				// Initilize Environment
 				ExtracterMain.buildEnvironment();
-				
-				// Get users resolution
-				String resolution = ExtracterMain.getClientResolution();
-				String selectedResolution = comboBox.getSelectedItem().toString();
-				
-				// Check resolution
-				if(!selectedResolution.equals(resolution))
-					TrainingApp.showMessageDialog(null, "Your current Hearthstone.exe resolution " + resolution + " is not matched with " + selectedResolution);
-				
-				// Initilize TrianDataCardScreen for the first card
-				else
+			
+				if(ExtracterMain.checkResolution())
 				{
 					TrainingApp.card3.getLblCardorder().setText("1/" + (TrainingApp.card2.getNumberBox().getSelectedIndex()+1));
 					ExtracterMain.getCardImage(TrainingApp.card3.getCurrentCardOrder());

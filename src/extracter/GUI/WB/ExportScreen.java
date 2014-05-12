@@ -6,13 +6,21 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
 import extracter.ExtracterMain;
 import extracter.card.Deck;
+
 import java.awt.Font;
+
+import javax.swing.JScrollBar;
+
+import com.google.gson.Gson;
+
+import java.awt.ScrollPane;
 
 public class ExportScreen extends JPanel {
 	private JTextField txtDeckname;
@@ -26,8 +34,12 @@ public class ExportScreen extends JPanel {
 		JButton btnNewButton = new JButton("Export Deck");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Deck deck = ExtracterMain.exportDeck(txtDeckname.getText());
-				list.setListData(deck.toArray());
+				if(ExtracterMain.checkResolution())
+				{
+					Deck deck = ExtracterMain.exportDeck(txtDeckname.getText());
+					System.out.println(new Gson().toJson(deck));
+					list.setListData(deck.toArray());
+				}
 			}
 		});
 		btnNewButton.setBounds(260, 13, 131, 25);
@@ -45,8 +57,12 @@ public class ExportScreen extends JPanel {
 		
 		 list = new JList();
 		 list.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		list.setBounds(57, 49, 173, 424);
-		add(list);
+		list.setBounds(22, 53, 198, 209);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(22, 53, 198, 209);
+		scrollPane.setViewportView(list);
+		add(scrollPane);
 
 	}
 }
