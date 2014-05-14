@@ -25,6 +25,7 @@ import java.awt.ScrollPane;
 public class ExportScreen extends JPanel {
 	private JTextField txtDeckname;
 	private JList list;
+	private Deck deck;
 	/**
 	 * Create the panel.
 	 */
@@ -36,33 +37,49 @@ public class ExportScreen extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(ExtracterMain.checkResolution())
 				{
-					Deck deck = ExtracterMain.exportDeck(txtDeckname.getText());
+					deck = ExtracterMain.exportDeck(txtDeckname.getText());
 					System.out.println(new Gson().toJson(deck));
 					list.setListData(deck.toArray());
 				}
 			}
 		});
-		btnNewButton.setBounds(260, 13, 131, 25);
+		btnNewButton.setBounds(88, 55, 116, 25);
 		add(btnNewButton);
 		
 		txtDeckname = new JTextField();
 		txtDeckname.setText("deckName");
-		txtDeckname.setBounds(127, 14, 116, 22);
+		txtDeckname.setBounds(88, 14, 116, 22);
 		add(txtDeckname);
 		txtDeckname.setColumns(10);
 		
 		JLabel lblDeckName = new JLabel("Deck Name :");
-		lblDeckName.setBounds(34, 17, 92, 16);
+		lblDeckName.setBounds(10, 17, 92, 16);
 		add(lblDeckName);
-		
-		 list = new JList();
-		 list.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		list.setBounds(22, 53, 198, 209);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(22, 53, 198, 209);
-		scrollPane.setViewportView(list);
+		scrollPane.setBounds(230, 14, 198, 269);
 		add(scrollPane);
+		 
+		  list = new JList();
+		  scrollPane.setViewportView(list);
+		  list.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		  
+		  JButton btnPublishDeck = new JButton("Publish");
+		  btnPublishDeck.addActionListener(new ActionListener() {
+		  	public void actionPerformed(ActionEvent arg0) {
+		  		
+		  	}
+		  });
+		  btnPublishDeck.setBounds(88, 258, 116, 25);
+		  add(btnPublishDeck);
+		  
+		  JButton btnCopyToClipboard = new JButton("Copy Deck");
+		  btnCopyToClipboard.addActionListener(new ActionListener() {
+		  	public void actionPerformed(ActionEvent e) {
+		  	}
+		  });
+		  btnCopyToClipboard.setBounds(88, 222, 116, 25);
+		  add(btnCopyToClipboard);
 
 	}
 }

@@ -64,7 +64,7 @@ public class TrainDataMenu extends JPanel {
 		add(lblResolution);
 		
 		JTextPane txtpnPleaseSelect = new JTextPane();
-		txtpnPleaseSelect.setText("Please select :\n - Hearthstone.exe resolution \n - Set number of cards you will enter. (Max 20)");
+		txtpnPleaseSelect.setText("Please select :\n - Hearthstone.exe resolution \n - Set number of cards you will enter. (Max 15)");
 		txtpnPleaseSelect.setBounds(49, 13, 294, 59);
 		add(txtpnPleaseSelect);
 		
@@ -73,7 +73,7 @@ public class TrainDataMenu extends JPanel {
 		add(lblOfCards);
 		
 		numberBox = new JComboBox();
-		numberBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"}));
+		numberBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"}));
 		numberBox.setBounds(177, 152, 105, 22);
 		add(numberBox);
 

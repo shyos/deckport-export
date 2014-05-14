@@ -41,17 +41,12 @@ public class RobotManager {
 		HWND hWnd = user32.FindWindow(null, "Hearthstone");
 		user32.ShowWindow(hWnd, User32.SW_SHOW);
 		user32.SetForegroundWindow(hWnd);
-		RECT rect = new RECT();
-		User32Extra.INSTANCE.GetWindowRect(hWnd, rect);
+		RECT bounds = new RECT();
 		RECT bounds2 = new RECT();
-		User32Extra.INSTANCE.GetClientRect(hWnd, bounds2);
-		int x = rect.left;
-		int y = rect.top;
-		int width = rect.right - rect.left;
-		int height = rect.bottom - rect.top;
-		Rectangle result = new Rectangle(x, y, width, height);
-	/*	Thread.sleep(1000);
-		PixelManager.setPixelManager();
+		User32Extra.INSTANCE.GetWindowRect(hWnd, bounds);
+		User32.INSTANCE.GetWindowRect(hWnd, bounds2);
+		Thread.sleep(1000);
+	/*	PixelManager.setPixelManager();
 		x = bounds.toRectangle().x;
 		y = bounds.toRectangle().y;
 		List<DeckItem> cards = deck.getCards();
@@ -155,7 +150,6 @@ public class RobotManager {
 			Thread.sleep(30);
 			robot.mouseWheel(5);
 			Thread.sleep(1000);
-			System.out.println("111111111111111111");
 			scrollDownFlag = false;
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block

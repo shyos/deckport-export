@@ -28,7 +28,7 @@ public class ImportScreen extends JPanel {
 		
 		txtrJsonarea = new JTextArea();
 		txtrJsonarea.setText("jsonArea");
-		txtrJsonarea.setBounds(27, 15, 278, 45);
+		txtrJsonarea.setBounds(27, 15, 278, 23);
 		add(txtrJsonarea);
 		
 		JButton btnImportAsJson = new JButton("Import As Json");
@@ -50,6 +50,19 @@ public class ImportScreen extends JPanel {
 		});
 		btnImportAsJson.setBounds(315, 15, 105, 23);
 		add(btnImportAsJson);
+		
+		JButton btnImportFromSite = new JButton("Import As Link");
+		btnImportFromSite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnImportFromSite.setBounds(315, 57, 105, 23);
+		add(btnImportFromSite);
+		
+		JTextArea txtrLink = new JTextArea();
+		txtrLink.setText("link");
+		txtrLink.setBounds(27, 57, 278, 23);
+		add(txtrLink);
 
 	}
 }
