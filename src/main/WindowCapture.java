@@ -122,7 +122,7 @@ public class WindowCapture extends JFrame {
     private int h = 19;
     private HWND hWnd;
     public WindowCapture() throws IOException {
-        hWnd = User32.INSTANCE.FindWindow(null, "Hearthstone");
+        this.hWnd = User32.INSTANCE.FindWindow(null, "Hearthstone");
         captureHwnd();
        /* this.image = image.getSubimage(x,y,w,h);
 		BufferedImage coloredImage = image;

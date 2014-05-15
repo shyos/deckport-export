@@ -238,6 +238,7 @@ public class ExtracterMain {
 		    }
 		    if(maxDiff < 2) break;
 	    }
+	    System.out.println(returnCard.getName());
 	    return returnCard;
 	}
 	// Sometimes images position changes few lines, to overcome this also check those coordinates (for the card counts).
@@ -490,11 +491,17 @@ public class ExtracterMain {
 		WindowCapture myWC = null;
 		try {
 			myWC = new WindowCapture();
+
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			TrainingApp.showMessageDialog(null, "Hearthstone.exe not found.");
+			return false;
 		}
 		BufferedImage res = myWC.getImage();
+		if(res == null)
+		{
+			TrainingApp.showMessageDialog(null, "Hearthstone.exe not found.");
+			return false;
+		}	
 		Resolution clientRes = new Resolution(res.getWidth(), res.getHeight());
 		if(availableRes.contains(clientRes.toString()))
 		{
@@ -506,5 +513,6 @@ public class ExtracterMain {
 			TrainingApp.showMessageDialog(null, "Your current resolution is "+ clientRes.toString() + ". Please change your Hearthstone resolution. Possible resolutions are: " + availableRes.toString());
 			return false;
 		}
+
 	}
 }

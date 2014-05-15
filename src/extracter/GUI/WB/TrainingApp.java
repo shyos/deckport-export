@@ -19,12 +19,16 @@ import extracter.ExtracterMain;
 
 import java.awt.Choice;
 import java.awt.CardLayout;
+import java.awt.Label;
+import java.awt.TextField;
+
 import javax.swing.JButton;
 
 public class TrainingApp {
 
 	private JFrame frame;
-	public static JPanel panel;
+	public static JPanel panel = new HomeScreen();
+	public static HomeScreen card1 = new HomeScreen();
 	public static TrainDataMenu card2 = new TrainDataMenu();
 	public static TrainDataCardScreen card3 = new TrainDataCardScreen();
 	public static ExportScreen card4 = new ExportScreen();
@@ -65,10 +69,8 @@ public class TrainingApp {
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		JPanel card1 = new JPanel();
-		card2 = new TrainDataMenu();
-		card3 = new TrainDataCardScreen();
-		card4 = new ExportScreen();
+		card1 = new HomeScreen();
+
 		
 		panel = new JPanel();
 		panel.setBounds(0, 0, 390, 377);
@@ -124,7 +126,13 @@ public class TrainingApp {
 	}
 	public static void showMessageDialog(Component parentComponent, String message) {
 		JOptionPane op = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
-		JDialog dialog = op.createDialog(parentComponent, "HearthStats.net");
+		TextField myText = new TextField(message);
+		if(message.contains("http") && message.contains("deck"))
+		{	
+			op.add(myText);
+			op = new JOptionPane("Deck Published: " + myText, JOptionPane.INFORMATION_MESSAGE);
+		}
+		JDialog dialog = op.createDialog(parentComponent, "DeckPort.com");
 		dialog.setAlwaysOnTop(true);
 		dialog.setModal(true);
 		dialog.setFocusableWindowState(true);

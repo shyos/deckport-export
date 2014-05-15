@@ -18,19 +18,22 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import extracter.card.Deck;
 
 public class Upload {
 	
-	public static String publishDeck(String deck)
+	public static String publishDeck(Deck deck)
 	{
 		HttpEntity entity = null;
         try {
                HttpClient httpclient = new DefaultHttpClient();
-               HttpPost httppost = new HttpPost("http://localhost:8080/DeckLoadWeb/UploadServlet");
+               HttpPost httppost = new HttpPost("http://localhost:8080/DeckLoadWeb/upload");
                List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-               params.add(new BasicNameValuePair("deck", deck));
+               Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+               String deckJson = gson.toJson(deck);
+               params.add(new BasicNameValuePair("deck", deckJson));
                httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
                HttpResponse response = httpclient.execute(httppost);
                entity = response.getEntity();   

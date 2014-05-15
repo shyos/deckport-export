@@ -42,18 +42,16 @@ public class RobotManager {
 		user32.ShowWindow(hWnd, User32.SW_SHOW);
 		user32.SetForegroundWindow(hWnd);
 		RECT bounds = new RECT();
-		RECT bounds2 = new RECT();
 		User32Extra.INSTANCE.GetWindowRect(hWnd, bounds);
-		User32.INSTANCE.GetWindowRect(hWnd, bounds2);
 		Thread.sleep(1000);
-	/*	PixelManager.setPixelManager();
+		PixelManager.setPixelManager();
 		x = bounds.toRectangle().x;
 		y = bounds.toRectangle().y;
 		List<DeckItem> cards = deck.getCards();
 		for(DeckItem deckItem : cards)
 		{
 			addCardToDeck(x,y,deckItem);
-		}*/
+		}
 	}
 
 	public static void addCardToDeck(int x, int y, DeckItem deckItem)

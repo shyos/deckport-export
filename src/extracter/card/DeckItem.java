@@ -1,22 +1,19 @@
 package extracter.card;
 
+import com.google.gson.annotations.Expose;
+
 public class DeckItem {
-	private Card card;
-	private int count;
-	public DeckItem(Card card){
-		this.setCard(card);
+	@Expose private Card card;
+	@Expose private int count;
+	public DeckItem(Card myCard){
+		this.card = myCard;
 	}
-	public DeckItem(Card card, int count)
+	public DeckItem(Card myCard, int count)
 	{
-		this.card = card;
+		this(myCard);
 		this.count = count;
 	}
-	public Card getCard() {
-		return card;
-	}
-	public void setCard(Card card) {
-		this.card = card;
-	}
+
 	public int getCount() {
 		return count;
 	}
@@ -26,5 +23,11 @@ public class DeckItem {
 	public String toString()
 	{
 		return card.getName() + " x" + count; 
+	}
+	public Card getCard() {
+		return card;
+	}
+	public void setCard(Card card) {
+		this.card = card;
 	}
 }

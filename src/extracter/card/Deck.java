@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.annotations.Expose;
+
 import sun.org.mozilla.javascript.internal.ObjArray;
 
 public class Deck {
-	private String deckName;
+	@Expose private String deckName;
 	private String deckLink;
 	private String deckOwner;
-	private List<DeckItem> cards;
+	@Expose private String deckClass;
+	@Expose private List<DeckItem> cards;
 	public Deck(ArrayList<DeckItem> deckItems, String deckName) {
 		this.setCards(deckItems);
 		this.deckName = deckName;
@@ -36,5 +39,11 @@ public class Deck {
 			i++;
 		}
 		return myObject; 
+	}
+	public String getDeckClass() {
+		return deckClass;
+	}
+	public void setDeckClass(String deckClass) {
+		this.deckClass = deckClass;
 	}
 }

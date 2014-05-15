@@ -1,20 +1,20 @@
 package extracter.card;
 
-import java.awt.image.BufferedImage;
+import com.google.gson.annotations.Expose;
 
 import extracter.Constants;
 
 public class Card {
-	private String name;
+	@Expose private String name;
 	private String description;
 	private int attack;
 	private int health;
 	private int card_set_id;
 	private int rarity_id;
 	private int type_id;
-	private int klass_id;
+	@Expose private int klass_id;
 	private int race_id;
-	private int mana;
+	@Expose private int mana;
 	private boolean collectible;
 	private String image_link;
 	private int patch_id;
