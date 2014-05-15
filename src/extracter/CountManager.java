@@ -47,7 +47,7 @@ public class CountManager {
 			cardCounts.add(myCC);
 		}
 		//Write to a file
-		ExtracterMain.writeToFile(cardCounts, "cardcounts.txt");
+		ExtracterMain.writeToResourceFile(cardCounts, "/txt/cardcounts.txt");
 	}
 	public static void cropImage(int order, BufferedImage image)
 	{
@@ -62,9 +62,9 @@ public class CountManager {
 	  //  ExtracterMain.WC.showFrame(subImage);
 	}
 	private static void readCardCounts() {
-		String guicardsText = readFromFile("cardcounts.txt");
+		String cardcountsText = ExtracterMain.readFromResourceFile("/txt/cardcounts.txt");
 		Type mapType = new TypeToken<List<CardCount>>(){}.getType(); 
-		cardCounts =  new Gson().fromJson(guicardsText, mapType);
+		cardCounts =  new Gson().fromJson(cardcountsText, mapType);
 		
 	}
 	private static String readFromFile(String filename) {

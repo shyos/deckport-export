@@ -1,20 +1,18 @@
 package extracter.GUI.WB;
 
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
+import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import main.TesseractMain;
-import extracter.Constants;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+
 import extracter.ExtractManager;
 import extracter.ExtracterMain;
-
-import java.awt.CardLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
 
 public class TrainDataCardScreen extends JPanel {
 	private JTextField textField;

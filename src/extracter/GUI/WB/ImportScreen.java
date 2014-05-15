@@ -69,9 +69,9 @@ public class ImportScreen extends JPanel {
 				+ "2- Paste deck into above text area\n"
 				+ "3- Click 'Import As Json'\n"
 				+ "4- DON'T TOUCH MOUSE\n"
-				+ "5- Wait until mouse stops."
+				+ "5- Wait until mouse stops.\n"
 				+ "6- Done :)");
-		txtpnWarning.setBounds(27, 96, 313, 111);
+		txtpnWarning.setBounds(27, 96, 300, 149);
 		add(txtpnWarning);
 
 	}

@@ -1,6 +1,5 @@
 package extracter;
 
-import java.awt.AWTException;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,14 +7,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import javax.imageio.ImageIO;
+import org.apache.commons.io.IOUtils;
+
+import main.WindowCapture;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,8 +29,6 @@ import extracter.card.Card;
 import extracter.card.CardCount;
 import extracter.card.Deck;
 import extracter.card.DeckItem;
-import main.TesseractMain;
-import main.WindowCapture;
 
 public class ExtracterMain {
 	public static ArrayList<Card> cards;
@@ -41,11 +43,12 @@ public class ExtracterMain {
 	
 	public static void main(String[] args) throws IOException {
 		
-		buildEnvironment();   
+	//	buildEnvironment(); 
+	//	readCards();
 	//	saveDeckManuel(image);		
 	//	saveDeckAuto(image);	
 	//	importNewCardsToOriginals("guicards.txt");
-		exportDeck("First");
+	//	exportDeck("First");
 
 	}
 	
@@ -131,7 +134,7 @@ public class ExtracterMain {
 	}
 
 	private static void readCardCounts() {
-		String guicardsText = readFromFile("cardcounts.txt");
+		String guicardsText = readFromResourceFile("/txt/cardcounts.txt");
 		Type mapType = new TypeToken<List<CardCount>>(){}.getType(); 
 		cardCounts =  new Gson().fromJson(guicardsText, mapType);
 
@@ -140,7 +143,7 @@ public class ExtracterMain {
 	//Read card list from txt, build maps
 	private static void readCards()
 	{
-		String cardsText = readFromFile("cards.txt");
+		String cardsText = readFromResourceFile("/txt/cards.txt");
 		Type mapType = new TypeToken<List<Card>>(){}.getType(); 
 		cards = new Gson().fromJson(cardsText, mapType);
 		
@@ -359,7 +362,7 @@ public class ExtracterMain {
 			}	
 		}
 		//Write to a file
-		writeToFile(cards, "cards.txt");
+		writeToResourceFile(cards, "/txt/cards.txt");
 	}
 
 	// Used by TrainingAPP GUI to fetch card images
@@ -406,6 +409,48 @@ public class ExtracterMain {
 		return k;
 	}
 
+	// Writes cards to resource file as txt
+	public static void writeToResourceFile(Object cards, String filename) {
+		try {
+
+			/*File file = new File(filename);
+ 
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}*/
+			PrintWriter writer = new PrintWriter(
+		                     new File(ExtracterMain.class.getResource(filename).getPath()));
+			
+			writer.write(new Gson().toJson(cards));
+			writer.close();
+
+ 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+
+	// Reads cards from resource txt
+	public static String readFromResourceFile(String filename) {
+			 
+		BufferedReader br = null;
+		String cardsText = "";
+		try {
+			cardsText = IOUtils.toString(
+				      ExtracterMain.class.getResourceAsStream(filename),
+				      "UTF-8"
+				    );
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 
+
+		return cardsText;
+	}
 	// Writes cards to txt
 	public static void writeToFile(Object cards, String filename) {
 		try {
@@ -454,7 +499,7 @@ public class ExtracterMain {
 		}
 		return cardsText;
 	}
-
+	
 	// Import new data into cards.txt
 	public static void importNewCardsToOriginals(String filename)
 	{
@@ -462,7 +507,7 @@ public class ExtracterMain {
 		Type mapType = new TypeToken<List<Card>>(){}.getType(); 
 		ArrayList<Card> newCards = new Gson().fromJson(cardsText, mapType);
 		
-		cardsText = readFromFile("cards.txt");
+		cardsText = readFromResourceFile("/txt/cards.txt");
 		ArrayList<Card> originals = new Gson().fromJson(cardsText, mapType);
 		HashMap<Integer, Card> originalsMap = new HashMap<Integer, Card>();
 		for(Card card : originals)
@@ -481,7 +526,7 @@ public class ExtracterMain {
 			resultList.add(originalsMap.get(key));
 		}
 		
-		writeToFile(resultList, "cards.txt");
+		writeToResourceFile(resultList, "/txt/cards.txt");
 	}
 
 	// Check client resolution
