@@ -43,7 +43,7 @@ public class TrainingApp {
 					TrainingApp window = new TrainingApp();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					TrainingApp.showMessageDialog(null, e.toString());
 				}
 			}
 		});

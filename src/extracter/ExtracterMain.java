@@ -43,12 +43,12 @@ public class ExtracterMain {
 	
 	public static void main(String[] args) throws IOException {
 		
-	//	buildEnvironment(); 
+		buildEnvironment(); 
 	//	readCards();
 	//	saveDeckManuel(image);		
 	//	saveDeckAuto(image);	
 	//	importNewCardsToOriginals("guicards.txt");
-	//	exportDeck("First");
+		exportDeck("First");
 
 	}
 	
@@ -78,8 +78,11 @@ public class ExtracterMain {
 		for(int i = 0; i<part1.size();i++)
 		{
 			// If two parts have shared cards skip them.
+			Card c1 = part1.get(i).getCard();
+			Card c2 = part2.get(j).getCard();
 			if(part1.get(i).getCard().getHearthhead_id() == part2.get(j).getCard().getHearthhead_id())
 			{
+			//	System.out.println(part1.get(i).getCard().getName() + " is equal " + part2.get(j).getCard().getName());
 				j++;
 			}
 		}	
@@ -89,6 +92,8 @@ public class ExtracterMain {
 			part1.add(part2.get(j));
 		}
 		
+
+		
 		// If deck reaches 30 card count, rip off rest
 		int count = 0;
 		int i;
@@ -97,6 +102,7 @@ public class ExtracterMain {
 		{
 			count+=part1.get(i).getCount();
 			mergedDeck.add(part1.get(i));
+			System.out.println(i + " - " + mergedDeck.get(i).toString());
 		}	
 		return mergedDeck;
 	}
@@ -170,16 +176,16 @@ public class ExtracterMain {
 	}
 	
 	// Finds similar of the card
-	private static DeckItem matchCards(BufferedImage image, BufferedImage countImage) {
-		DeckItem deckItem = new DeckItem(findSimilarCard(image));
+	private static DeckItem matchCards(BufferedImage image, BufferedImage countImage, int manaFlag) {
+		DeckItem deckItem = new DeckItem(findSimilarCard(image, manaFlag));
 		deckItem.setCount(findSimilarCount(countImage));
 		return deckItem;
 
 	}
 	// Compares current card with others (Algortihm included)
-	private static Card findSimilarCard(BufferedImage img)
+	private static Card findSimilarCard(BufferedImage img, int manaFlag)
 	{
-		return findSimilarCardWithIndex(img, 4);
+		return findSimilarCardWithIndex(img, 4, manaFlag);
 	}
 	// Compares current card count with others (Algortihm included)
 	private static int findSimilarCount(BufferedImage img)
@@ -187,7 +193,7 @@ public class ExtracterMain {
 		return findSimilarCountWithIndex(img, 4);
 	}
 	// Sometimes images position changes few lines, to overcome this also check those coordinates.
-	private static Card findSimilarCardWithIndex(BufferedImage img1,int lineIndex) {
+	private static Card findSimilarCardWithIndex(BufferedImage img1,int lineIndex, int manaFlag) {
 	    int width1 = img1.getWidth(null);
 	    int height1 = img1.getHeight(null);
 
@@ -205,7 +211,7 @@ public class ExtracterMain {
 		
 		    for(Card card : cards)
 		    {
-		    	if(card.getHash()!=null)
+		    	if(card.getHash()!=null && card.getMana() >= manaFlag)
 		    	{
 				    long diff = 0;
 				    
@@ -228,12 +234,12 @@ public class ExtracterMain {
 				    double n = width1 * height1 * 3;
 				    double p = diff / n / 255.0;
 				    diffPercent = (p * 100.0);
-				    //System.out.println("diff percent: " + diffPercent);
+
 				    if(diffPercent < maxDiff)
 				    {
 				    	maxDiff = diffPercent;
 				    	returnCard = card;
-				    	//System.out.println("Level: " + (h+1) + " Possible: " + card.getName() + " Similarity: " + diffPercent);
+				    	System.out.println("Level: " + (h+1) + " Possible: " + card.getName() + " Similarity: " + diffPercent);
 				    }
 				    if(maxDiff < 2) break;
 		    	}
@@ -308,11 +314,13 @@ public class ExtracterMain {
 	private static ArrayList<DeckItem> fetchCards(BufferedImage image) {
 		
 		ArrayList<DeckItem> deckItems = new ArrayList<DeckItem>();
+		int manaFlag = 0;
 		for(int i=0;i<numberOfCardInDeck;i++)
 		{
 			//System.out.println("Giren Kart " + (i+1) );
+			
 			ExtractManager.cropImage(i, image);
-			DeckItem deckItem = matchCards(ExtractManager.subImage, ExtractManager.countImage);
+			DeckItem deckItem = matchCards(ExtractManager.subImage, ExtractManager.countImage, manaFlag);
 			if(!deckItem.getCard().getName().equals("UNKNOWN"))
 			{
 				System.out.println((i+1) + "/"+ numberOfCardInDeck + " - " + deckItem.toString());
@@ -323,6 +331,7 @@ public class ExtracterMain {
 				System.out.println("Bu kart henüz sisteme tanýtýlmamýþ.");
 				deckItems.add(deckItem);
 			}
+			manaFlag = deckItem.getCard().getMana();
 		}	
 		return deckItems;
 	}

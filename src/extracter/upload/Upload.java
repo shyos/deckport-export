@@ -29,7 +29,7 @@ public class Upload {
 		HttpEntity entity = null;
         try {
                HttpClient httpclient = new DefaultHttpClient();
-               HttpPost httppost = new HttpPost("http://localhost:8080/DeckLoadWeb/upload");
+               HttpPost httppost = new HttpPost("http://107.170.30.35:8080/DeckLoadWeb/upload");
                List<NameValuePair> params = new ArrayList<NameValuePair>(2);
                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
                String deckJson = gson.toJson(deck);

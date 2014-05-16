@@ -56,7 +56,7 @@ public class TrainDataCardScreen extends JPanel {
 				int maxCardNumber = TrainingApp.card2.getNumberBox().getSelectedIndex()+1;
 				int k = currentCardOrder;
 				k = ExtracterMain.saveSingleCard(currentCardOrder, textField.getText());
-				
+
 				if(k == maxCardNumber)
 				{
 					//Save cards

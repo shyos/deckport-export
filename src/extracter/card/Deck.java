@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.google.gson.annotations.Expose;
 
-import sun.org.mozilla.javascript.internal.ObjArray;
 
 public class Deck {
 	@Expose private String deckName;

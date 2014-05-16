@@ -11,6 +11,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.CardLayout;
 
+import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -29,6 +30,7 @@ import java.awt.event.ActionEvent;
 public class TrainDataMenu extends JPanel {
 	private JComboBox comboBox;
 	private JComboBox numberBox;
+	private JLabel lblResolution;
 	/**
 	 * Create the panel.
 	 */
@@ -36,11 +38,11 @@ public class TrainDataMenu extends JPanel {
 		setLayout(null);
 		
 		JButton btnStart = new JButton("Start");
+		
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Initilize Environment
 				ExtracterMain.buildEnvironment();
-			
 				if(ExtracterMain.checkResolution())
 				{
 					TrainingApp.card3.getLblCardorder().setText("1/" + (TrainingApp.card2.getNumberBox().getSelectedIndex()+1));
@@ -59,7 +61,7 @@ public class TrainDataMenu extends JPanel {
 		comboBox.setBounds(177, 117, 105, 22);
 		add(comboBox);
 		
-		JLabel lblResolution = new JLabel("Resolution:");
+		lblResolution = new JLabel("Resolution:");
 		lblResolution.setBounds(89, 120, 76, 16);
 		add(lblResolution);
 		

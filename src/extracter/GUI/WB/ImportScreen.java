@@ -51,12 +51,16 @@ public class ImportScreen extends JPanel {
 						err = true;
 					}
 					if(!err)
-					try {
-						RobotManager.importDeck(deck);
-					} catch (InterruptedException | AWTException e) {
-						// TODO Auto-generated catch block
-						TrainingApp.showMessageDialog(null, "Hearthstone.exe not found.");
-					} 
+						try {
+							RobotManager.importDeck(deck);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (AWTException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
 				}
 			}
 		});
