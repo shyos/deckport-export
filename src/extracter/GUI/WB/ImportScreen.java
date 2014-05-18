@@ -64,7 +64,7 @@ public class ImportScreen extends JPanel {
 				}
 			}
 		});
-		btnImportAsJson.setBounds(229, 11, 111, 23);
+		btnImportAsJson.setBounds(229, 11, 127, 23);
 		add(btnImportAsJson);
 		
 		JTextPane txtpnWarning = new JTextPane();

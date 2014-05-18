@@ -48,7 +48,7 @@ public class ExtracterMain {
 	//	saveDeckManuel(image);		
 	//	saveDeckAuto(image);	
 	//	importNewCardsToOriginals("guicards.txt");
-		exportDeck("First");
+	//	exportDeck("First");
 
 	}
 	
@@ -90,20 +90,33 @@ public class ExtracterMain {
 		for(;j<part2.size();j++)
 		{
 			part1.add(part2.get(j));
-		}
-		
-
-		
+		}	
 		// If deck reaches 30 card count, rip off rest
 		int count = 0;
 		int i;
+		j=0;
 		ArrayList<DeckItem> mergedDeck = new ArrayList<DeckItem>();
 		for(i=0;i<part1.size() && count<30;i++)
 		{
 			count+=part1.get(i).getCount();
-			mergedDeck.add(part1.get(i));
-			System.out.println(i + " - " + mergedDeck.get(i).toString());
-		}	
+			if(i!=0)
+			{
+				if(part1.get(i).getCard().getHearthhead_id() == mergedDeck.get(j-1).getCard().getHearthhead_id())
+				{
+					mergedDeck.get(j-1).setCount(mergedDeck.get(j-1).getCount()+1);
+				}
+				else
+				{
+					mergedDeck.add(part1.get(i));
+					j++;
+				}
+			}
+			else
+			{
+				mergedDeck.add(part1.get(i));
+				j++;
+			}
+		}
 		return mergedDeck;
 	}
 
