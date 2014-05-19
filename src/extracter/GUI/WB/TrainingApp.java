@@ -42,6 +42,7 @@ public class TrainingApp {
 						 File folder = new File("updater");
 						 if (folder.exists()) {
 								Update.remove(folder);
+								folder.delete();
 						}
 					TrainingApp window = new TrainingApp();
 					window.frame.setVisible(true);

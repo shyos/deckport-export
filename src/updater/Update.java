@@ -35,7 +35,7 @@ import javax.swing.JTextArea;
 public class Update extends JFrame{
 
     private Thread worker;
-    private final String root = "deckportupdate/";
+    private final String root = "update/";
 
     private JTextArea outText;
     private JButton cancle;
@@ -214,6 +214,7 @@ public class Update extends JFrame{
                 is.close();
             }
          }
+         zipfile.close();
 
     }
     private void downloadFile(String link) throws MalformedURLException, IOException
