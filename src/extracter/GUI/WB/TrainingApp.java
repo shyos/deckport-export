@@ -1,31 +1,26 @@
 package extracter.GUI.WB;
 
+import java.awt.Button;
+import java.awt.CardLayout;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JMenuBar;
 
-import java.awt.Button;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Component;
-
-import javax.swing.Box;
-
-import extracter.ExtracterMain;
-
-import java.awt.Choice;
-import java.awt.CardLayout;
-import java.awt.Label;
-import java.awt.TextField;
-
-import javax.swing.JButton;
+import extracter.Constants;
+import updater.Update;
+import updater.UpdateInfo;
+import updater.Updater;
 
 public class TrainingApp {
-
 	private JFrame frame;
 	public static JPanel panel = new HomeScreen();
 	public static HomeScreen card1 = new HomeScreen();
@@ -40,14 +35,24 @@ public class TrainingApp {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					 if (!Updater.getLatestVersion().equals(Constants.version)) {
+			                new UpdateInfo(Updater.getWhatsNew());
+			            }
+					 else{
+						 File folder = new File("updater");
+						 if (folder.exists()) {
+								Update.remove(folder);
+						}
 					TrainingApp window = new TrainingApp();
 					window.frame.setVisible(true);
+					 }
 				} catch (Exception e) {
 					TrainingApp.showMessageDialog(null, e.toString());
 				}
 			}
 		});
 	}
+
 
 	/**
 	 * Create the application.
@@ -62,7 +67,7 @@ public class TrainingApp {
 	 */
 	private void initialize() {
 		
-		frame = new JFrame();
+		frame = new JFrame("DeckPort | " + Constants.version);
 		frame.setBounds(100, 100, 408, 449);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
