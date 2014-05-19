@@ -43,7 +43,7 @@ public class ExtracterMain {
 	
 	public static void main(String[] args) throws IOException {
 		
-		buildEnvironment(); 
+	//	buildEnvironment(); 
 	//	readCards();
 	//	saveDeckManuel(image);		
 	//	saveDeckAuto(image);	
@@ -136,7 +136,7 @@ public class ExtracterMain {
 		readCardCounts();
 		
 		//Read GUI card list from txt
-		readCardsForTraining();
+		//readCardsForTraining();
 
 	}
 
@@ -176,7 +176,7 @@ public class ExtracterMain {
 	}
 	
 	//Read card list for Training App
-	private static void readCardsForTraining()
+	public static void readCardsForTraining()
 	{
 		String guicardsText = readFromFile("guicards.txt");
 		Type mapType = new TypeToken<List<Card>>(){}.getType(); 

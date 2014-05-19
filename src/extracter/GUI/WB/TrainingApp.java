@@ -19,6 +19,8 @@ import extracter.Constants;
 import updater.Update;
 import updater.UpdateInfo;
 import updater.Updater;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class TrainingApp {
 	private JFrame frame;
@@ -73,12 +75,11 @@ public class TrainingApp {
 		frame.setBounds(100, 100, 408, 449);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		final Button trainButton = new Button("Train Data");
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		card1 = new HomeScreen();
-
-		
+	
 		panel = new JPanel();
 		panel.setBounds(0, 0, 390, 377);
 		frame.getContentPane().add(panel);
@@ -98,13 +99,14 @@ public class TrainingApp {
 		});
 		menuBar.add(homeButton);
 		
-		Button trainButton = new Button("Train Data");
+		
 		trainButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CardLayout cl = (CardLayout)(panel.getLayout());
 			    cl.show(panel, "TRAINMENU");
 			}
 		});
+		trainButton.setEnabled(false);
 		menuBar.add(trainButton);
 		
 		Button exportButton = new Button("Export");

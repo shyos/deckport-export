@@ -42,9 +42,10 @@ public class TrainDataMenu extends JPanel {
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Initilize Environment
-				ExtracterMain.buildEnvironment();
 				if(ExtracterMain.checkResolution())
 				{
+					ExtracterMain.buildEnvironment();
+					ExtracterMain.readCardsForTraining();
 					TrainingApp.card3.getLblCardorder().setText("1/" + (TrainingApp.card2.getNumberBox().getSelectedIndex()+1));
 					ExtracterMain.getCardImage(TrainingApp.card3.getCurrentCardOrder());
 					TrainingApp.card3.getLblCardimage().setIcon(new ImageIcon(ExtractManager.subImage));
