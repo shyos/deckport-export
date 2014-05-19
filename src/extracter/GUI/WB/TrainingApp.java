@@ -78,7 +78,7 @@ public class TrainingApp {
 		final Button trainButton = new Button("Train Data");
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
-		
+		frame.setResizable(false);
 	
 		panel = new JPanel();
 		panel.setBounds(0, 0, 390, 377);
@@ -138,7 +138,7 @@ public class TrainingApp {
 		TextField myText = new TextField(message);
 		if(message.contains("http") && message.contains("deck"))
 		{	
-			op = new JOptionPane("Deck Published: ", JOptionPane.INFORMATION_MESSAGE);
+			op = new JOptionPane("Deck Published.", JOptionPane.INFORMATION_MESSAGE);
 			op.add(myText);
 		}
 		JDialog dialog = op.createDialog(parentComponent, "DeckPort.com");
