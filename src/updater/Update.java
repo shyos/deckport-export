@@ -125,7 +125,7 @@ public class Update extends JFrame{
     private void cleanup()
     {
         outText.setText(outText.getText()+"\nPreforming clean up...");
-        File f = new File("update.zip");
+        File f = new File("dpupdate.zip");
         f.delete();
         remove(new File(root));
         new File(root).delete();
@@ -187,7 +187,7 @@ public class Update extends JFrame{
          BufferedOutputStream dest = null;
          BufferedInputStream is = null;
          ZipEntry entry;
-         ZipFile zipfile = new ZipFile("update.zip");
+         ZipFile zipfile = new ZipFile("dpupdate.zip");
          Enumeration e = zipfile.entries();
          (new File(root)).mkdir();
          while(e.hasMoreElements()) {
@@ -224,7 +224,7 @@ public class Update extends JFrame{
         InputStream is = conn.getInputStream();
         long max = conn.getContentLength();
         outText.setText(outText.getText()+"\n"+"Downloding file...\nUpdate Size(compressed): "+max+" Bytes");
-        BufferedOutputStream fOut = new BufferedOutputStream(new FileOutputStream(new File("update.zip")));
+        BufferedOutputStream fOut = new BufferedOutputStream(new FileOutputStream(new File("dpupdate.zip")));
         byte[] buffer = new byte[32 * 1024];
         int bytesRead = 0;
         int in = 0;

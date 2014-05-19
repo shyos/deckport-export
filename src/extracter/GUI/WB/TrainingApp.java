@@ -44,6 +44,7 @@ public class TrainingApp {
 								Update.remove(folder);
 								folder.delete();
 						}
+						 folder = new File("dpupdate.zip");
 					TrainingApp window = new TrainingApp();
 					window.frame.setVisible(true);
 					 }
