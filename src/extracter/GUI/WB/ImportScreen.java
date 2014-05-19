@@ -12,11 +12,13 @@ import extracter.ExtracterMain;
 import extracter.RobotManager;
 import extracter.card.CardCount;
 import extracter.card.Deck;
+import extracter.card.DeckItem;
 
 import java.awt.AWTException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextPane;
@@ -43,9 +45,10 @@ public class ImportScreen extends JPanel {
 					Deck deck = null;
 					boolean err = false;
 					try {
-						String jsonText = txtrJsonarea.getText();
-						Type mapType = new TypeToken<Deck>(){}.getType(); 
-						deck = new Gson().fromJson(jsonText, mapType);
+						String jsonText = txtrJsonarea.getText();			
+						Type mapType = new TypeToken<List<DeckItem>>(){}.getType(); 			
+						ArrayList<DeckItem> cards = new Gson().fromJson(jsonText, mapType);
+						deck = new Deck(cards, "Deck");
 					} catch (JsonSyntaxException e1) {
 						TrainingApp.showMessageDialog(null, "Json has errors, please copy from DeckLoad.com again!");
 						err = true;
