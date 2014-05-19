@@ -138,8 +138,8 @@ public class TrainingApp {
 		TextField myText = new TextField(message);
 		if(message.contains("http") && message.contains("deck"))
 		{	
+			op = new JOptionPane("Deck Published: ", JOptionPane.INFORMATION_MESSAGE);
 			op.add(myText);
-			op = new JOptionPane("Deck Published: " + message, JOptionPane.INFORMATION_MESSAGE);
 		}
 		JDialog dialog = op.createDialog(parentComponent, "DeckPort.com");
 		dialog.setAlwaysOnTop(true);
