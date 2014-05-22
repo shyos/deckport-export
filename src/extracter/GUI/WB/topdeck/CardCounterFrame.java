@@ -70,18 +70,20 @@ public  class CardCounterFrame extends JFrame {
 		panel_1.add(btnBuild);
 		btnBuild.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				Deck deck = ExtracterMain.exportDeck("TopDeck");
-				card3 = new CardCounterScreen2(deck);
-				JScrollPane myScroll = new JScrollPane(card3);
-				myScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-				myScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-				panel.setBounds(0, 0, 220, 50+deck.getCards().size()*31);
-				myScroll.setPreferredSize(new Dimension(220,50+deck.getCards().size()*31));
-				setBounds(100, 100, 396, 50+deck.getCards().size()*31);
-				panel.add(myScroll,"CARD2");
-				CardLayout cl = (CardLayout)(panel.getLayout());
-			    cl.show(panel, "CARD2");
+				if(ExtracterMain.checkResolution())
+				{
+					Deck deck = ExtracterMain.exportDeck("TopDeck");
+					card3 = new CardCounterScreen2(deck);
+					JScrollPane myScroll = new JScrollPane(card3);
+					myScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+					myScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					panel.setBounds(0, 0, 220, 50+deck.getCards().size()*31);
+					myScroll.setPreferredSize(new Dimension(220,50+deck.getCards().size()*31));
+					setBounds(100, 100, 396, 50+deck.getCards().size()*31);
+					panel.add(myScroll,"CARD2");
+					CardLayout cl = (CardLayout)(panel.getLayout());
+				    cl.show(panel, "CARD2");
+				}
 			}
 		});
 	}

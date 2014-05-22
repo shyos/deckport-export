@@ -44,7 +44,6 @@ public class ExportScreen extends JPanel {
 				if(ExtracterMain.checkResolution())
 				{
 					deck = ExtracterMain.exportDeck(txtDeckname.getText());
-					System.out.println(new Gson().toJson(deck));
 					list.setListData(deck.toArray());
 				}
 			}
