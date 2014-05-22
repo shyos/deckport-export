@@ -2,12 +2,18 @@ package extracter.GUI.WB.topdeck;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,7 +22,9 @@ import javax.swing.border.EmptyBorder;
 
 import extracter.ExtracterMain;
 import extracter.card.Deck;
+
 import java.awt.Font;
+
 import javax.swing.SwingConstants;
 
 public  class CardCounterFrame extends JFrame {
@@ -32,8 +40,8 @@ public  class CardCounterFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public CardCounterFrame() {
-		setUndecorated(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 396, 405);
 		setBackground(Color.BLACK);
 		contentPane = new JPanel();
@@ -45,8 +53,6 @@ public  class CardCounterFrame extends JFrame {
 		contentPane.add(panel);
 		card3 = new CardCounterScreen2();
 		panel.add(card3,"CARD2");
-		
-
 		
 		getContentPane().add(contentPane);
 		
@@ -64,6 +70,7 @@ public  class CardCounterFrame extends JFrame {
 		panel_1.add(btnBuild);
 		btnBuild.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				Deck deck = ExtracterMain.exportDeck("TopDeck");
 				card3 = new CardCounterScreen2(deck);
 				JScrollPane myScroll = new JScrollPane(card3);
@@ -77,8 +84,5 @@ public  class CardCounterFrame extends JFrame {
 			    cl.show(panel, "CARD2");
 			}
 		});
-	/*	card1 = new CardCounterScreen(null);
-		card1.setBounds(0, 1, 291, 504);
-		contentPane.add(card1);*/
 	}
 }

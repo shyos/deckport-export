@@ -1,6 +1,10 @@
 package extracter.GUI.WB.topdeck;
 
 import java.awt.EventQueue;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 public class CardCounterMain {
 	public static CardCounterFrame frame;
@@ -10,7 +14,9 @@ public class CardCounterMain {
 			public void run() {
 				try {
 					 frame = new CardCounterFrame();
+					 frame.setTitle("Deck Tracker");
 					frame.setVisible(true);
+				
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
