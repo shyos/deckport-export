@@ -15,6 +15,7 @@ public class PixelManager {
 	private static int w_Text;				// W of Text Segment
 	private static int w_Image;				// W of Image Segment
 	private static int w_Count;				// W of Count Segment
+	private static int w_Full;				// W of Full Image for widgets
 	
 	private static int cropHeight;			// Height of the parts that are cropped from both top and bottom of a card
 	private static int heightOfACard;		// Height of a single card without crop
@@ -49,6 +50,7 @@ public class PixelManager {
 			w_Text = 90;
 			w_Image = 50;
 			w_Count = 12;
+			w_Full = 140;
 			
 			gap = 1;
 			heightOfACard = 28;
@@ -81,6 +83,10 @@ public class PixelManager {
 		return new Myrect(x_Count, getBaseY(), w_Count, getBaseH());
 	}
 
+	public static Myrect getFull() {
+		return new Myrect(x_FirstCard, y_FirstCard, w_Full, heightOfACard);
+	}
+	
 	public static int getBaseY() {
 		return y_FirstCard + cropHeight;
 	}
@@ -152,6 +158,24 @@ public class PixelManager {
 	public static void setY_Scroll(int y_Scroll) {
 		PixelManager.y_Scroll = y_Scroll;
 	}
+
+	public static int getW_Full() {
+		return w_Full;
+	}
+
+	public static void setW_Full(int w_Full) {
+		PixelManager.w_Full = w_Full;
+	}
+
+	public static int getCropHeight() {
+		return cropHeight;
+	}
+
+	public static void setCropHeight(int cropHeight) {
+		PixelManager.cropHeight = cropHeight;
+	}
+
+
 
 
 

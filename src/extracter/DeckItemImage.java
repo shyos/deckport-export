@@ -7,6 +7,7 @@ public class DeckItemImage {
 	private Myrect text;
 	private Myrect image;
 	private Myrect count;
+	private Myrect full;
 	private int baseY;
 	public DeckItemImage(int order)
 	{
@@ -15,6 +16,7 @@ public class DeckItemImage {
 		this.text = (PixelManager.getText());
 		this.image = (PixelManager.getImage());
 		this.count = (PixelManager.getCount());	
+		this.full = (PixelManager.getFull());
 		setBaseYs();
 	}
 	private void setBaseYs() {
@@ -23,6 +25,7 @@ public class DeckItemImage {
 		this.text.setY(baseY);
 		this.image.setY(baseY);
 		this.count.setY(baseY);
+		this.full.setY(baseY-PixelManager.getCropHeight());
 	}
 	
 	/**
@@ -63,5 +66,11 @@ public class DeckItemImage {
 	}
 	public void setBaseY(int baseY) {
 		this.baseY = baseY;
+	}
+	public Myrect getFull() {
+		return full;
+	}
+	public void setFull(Myrect full) {
+		this.full = full;
 	}
 }

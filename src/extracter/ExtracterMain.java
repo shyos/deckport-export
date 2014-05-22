@@ -337,6 +337,7 @@ public class ExtracterMain {
 			if(!deckItem.getCard().getName().equals("UNKNOWN"))
 			{
 				System.out.println((i+1) + "/"+ numberOfCardInDeck + " - " + deckItem.toString());
+				deckItem.setImage(ExtractManager.deckItemImage);
 				deckItems.add(deckItem);
 			}
 			else

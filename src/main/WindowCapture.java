@@ -124,13 +124,7 @@ public class WindowCapture extends JFrame {
     public WindowCapture() throws IOException {
         this.hWnd = User32.INSTANCE.FindWindow(null, "Hearthstone");
         captureHwnd();
-       /* this.image = image.getSubimage(x,y,w,h);
-		BufferedImage coloredImage = image;
-		BufferedImage blackNWhite = new BufferedImage(coloredImage.getWidth(),coloredImage.getHeight(),BufferedImage.TYPE_BYTE_BINARY);
-		Graphics2D graphics = blackNWhite.createGraphics();
-		graphics.drawImage(coloredImage, 0, 0, null);
-		coloredImage = blackNWhite;
-        this.image = invertImage(blackNWhite);*/
+       
     /*  setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();dene sonra bana
         setExtendedState(MAXIMIZED_BOTH);
