@@ -29,6 +29,8 @@ public class PixelManager {
 	private static int y_SearchedCard;		// Y of Card
 	private static int x_Scroll;			// X of Deck Scroller
 	private static int y_Scroll;			// Y of Deck Scroller
+	public static double ratio;
+	public static int sideCrop;
 	
 	public static void setPixelManager(){
 		initWithResolution();
@@ -56,12 +58,12 @@ public class PixelManager {
 			heightOfACard = 28;
 			cropHeight = 7;	
 			
-			x_Search = 480;
-			y_Search = 722;
-			x_SearchedCard = 120;
-			y_SearchedCard = 250;
-			x_Scroll = 1000;
-			y_Scroll = 100;
+			x_Search = (int) (sideCrop + 480*ratio);
+			y_Search = (int) (722*ratio);
+			x_SearchedCard = (int) (sideCrop + 120*ratio);
+			y_SearchedCard = (int) (250*ratio);
+			x_Scroll = (int)(sideCrop + 1000*ratio);
+			y_Scroll = (int) (100*ratio);
 		}
 		
 	}

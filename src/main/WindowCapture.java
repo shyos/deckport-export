@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;
@@ -28,6 +29,10 @@ import com.sun.jna.platform.win32.WinDef.RECT;
 import com.sun.jna.platform.win32.WinGDI;
 import com.sun.jna.platform.win32.WinGDI.BITMAPINFO;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
+
+import extracter.Constants;
+import extracter.PixelManager;
+import extracter.Resolution;
 
 public class WindowCapture extends JFrame {
 
@@ -116,10 +121,6 @@ public class WindowCapture extends JFrame {
     }
 
     BufferedImage image;
-    private int x = 820;
-    private int y = 84;
-    private int w = 50;
-    private int h = 19;
     private HWND hWnd;
     public WindowCapture() throws IOException {
         this.hWnd = User32.INSTANCE.FindWindow(null, "Hearthstone");
@@ -132,8 +133,38 @@ public class WindowCapture extends JFrame {
     }
     public void captureHwnd(){
     	this.image = capture(hWnd);
+    	this.image = convert(image);
     }
-    public void showFrame(BufferedImage image)
+    private BufferedImage convert(BufferedImage tempImage) {
+    	int gh = Constants._RESOLUTION.getHeight();
+    	int gw = Constants._RESOLUTION.getWidth();
+    	int w = image.getWidth();
+		int h = image.getHeight();	
+		double expectedW = ((double)h/gh)*gw;
+		PixelManager.ratio = expectedW/gw;
+		int expW = (int) expectedW;
+		int sideCrop = (w - expW)/2;
+		PixelManager.sideCrop = sideCrop;
+		System.out.println("original:" + w + " x " + h);
+		System.out.println("expected W: " + expectedW);
+		System.out.println("sidecrop: " + sideCrop);
+		int type = tempImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : tempImage.getType();
+		BufferedImage resizedImage = new BufferedImage(gw, gh, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+		RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING,
+		RenderingHints.VALUE_RENDER_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		RenderingHints.VALUE_ANTIALIAS_ON);
+		g.drawImage(tempImage.getSubimage(sideCrop, 0, expW, h), 0, 0, gw, gh, null);
+		g.dispose();
+		System.out.println();
+		System.out.println("latest: " + resizedImage.getWidth() + " x " + resizedImage.getHeight());
+		//showFrame(resizedImage);
+		return resizedImage;
+	}
+	public void showFrame(BufferedImage image)
     {
     	this.image = image;
     	// setDefaultCloseOperation(EXIT_ON_CLOSE);
