@@ -310,7 +310,7 @@ public class ExtracterMain {
 				    {
 				    	maxDiff = diffPercent;
 				    	returnCount = cc.getCount();
-				    	//System.out.println("Level: " + (h+1) + " Possible: " + cc.getDescription() + " Similarity: " + diffPercent);
+				    	System.out.println("Level: " + (h+1) + " Possible: " + cc.getDescription() + " Similarity: " + diffPercent);
 				    }
 				    if(maxDiff < 2) break;
 		    	}
@@ -318,7 +318,7 @@ public class ExtracterMain {
 		    }
 		    if(maxDiff < 2) break;
 	    }
-	    if(maxDiff < 8)
+	    if(maxDiff < 7.5)
 	    	return returnCount;
 	    else 
 	    	return 1;
