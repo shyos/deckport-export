@@ -107,7 +107,7 @@ public class TrainingApp {
 			    cl.show(panel, "TRAINMENU");
 			}
 		});
-		//trainButton.setEnabled(false);
+		trainButton.setEnabled(false);
 		menuBar.add(trainButton);
 		
 		Button exportButton = new Button("Export");
