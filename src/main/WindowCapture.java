@@ -122,7 +122,7 @@ public class WindowCapture extends JFrame {
 
     BufferedImage image;
     private HWND hWnd;
-    public WindowCapture() throws IOException {
+    public WindowCapture() {
         this.hWnd = User32.INSTANCE.FindWindow(null, "Hearthstone");
         captureHwnd();
        
@@ -144,10 +144,7 @@ public class WindowCapture extends JFrame {
 		PixelManager.ratio = expectedW/gw;
 		int expW = (int) expectedW;
 		int sideCrop = (w - expW)/2;
-		PixelManager.sideCrop = sideCrop;
-		System.out.println("original:" + w + " x " + h);
-		System.out.println("expected W: " + expectedW);
-		System.out.println("sidecrop: " + sideCrop);
+
 		int type = tempImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : tempImage.getType();
 		BufferedImage resizedImage = new BufferedImage(gw, gh, type);
 		Graphics2D g = resizedImage.createGraphics();
@@ -159,9 +156,7 @@ public class WindowCapture extends JFrame {
 		RenderingHints.VALUE_ANTIALIAS_ON);
 		g.drawImage(tempImage.getSubimage(sideCrop, 0, expW, h), 0, 0, gw, gh, null);
 		g.dispose();
-		System.out.println();
-		System.out.println("latest: " + resizedImage.getWidth() + " x " + resizedImage.getHeight());
-		//showFrame(resizedImage);
+
 		return resizedImage;
 	}
 	public void showFrame(BufferedImage image)

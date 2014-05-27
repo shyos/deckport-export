@@ -154,4 +154,14 @@ public class RobotManager {
 				e1.printStackTrace();
 		}
 	}
+	public static Rectangle getWindowSize()
+	{
+		User32 user32 = User32.INSTANCE;
+		HWND hWnd = user32.FindWindow(null, "Hearthstone");
+		user32.ShowWindow(hWnd, User32.SW_SHOW);
+		user32.SetForegroundWindow(hWnd);
+		RECT bounds = new RECT();
+		User32Extra.INSTANCE.GetWindowRect(hWnd, bounds);
+		return bounds.toRectangle();
+	}
 }

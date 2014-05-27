@@ -141,13 +141,7 @@ public class ExtracterMain {
 	}
 
 	private static void captureWindow() {
-		// TODO Auto-generated method stub
-		try {
-			WC = new WindowCapture();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		WC = new WindowCapture();
 		// Gets Image
 		image = WC.getImage();
 	}
@@ -557,13 +551,7 @@ public class ExtracterMain {
 		ArrayList<String> availableRes = new ArrayList<String>();
 		availableRes.add("1024x768");
 		WindowCapture myWC = null;
-		try {
-			myWC = new WindowCapture();
-
-		} catch (IOException e) {
-			TrainingApp.showMessageDialog(null, "Hearthstone.exe not found.");
-			return false;
-		}
+		myWC = new WindowCapture();
 		BufferedImage res = myWC.getImage();
 		if(res == null)
 		{
