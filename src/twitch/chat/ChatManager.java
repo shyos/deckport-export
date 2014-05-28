@@ -1,21 +1,22 @@
-package twitch.play;
+package twitch.chat;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import twitch.chat.ChatMessage;
-import twitch.chat.ChatParser;
-import twitch.chat.IRCConnection;
-import twitch.play.GUI.PollOverlay;
+import twitch.play.GUI.PollManagerScreen;
+import twitch.play.GUI.PollOverlayScreen;
+import extracter.PixelManager;
+import extracter.RobotManager;
 
-public class StartDecker {
+public class ChatManager {
     // Connection infos
-	static String user = "shyug";
-    static String pass = "oauth:ago75v1lrj9kcvswiy4bbn9l31zv9mc";
+	public static String user = "shyug";
+	public static String pass = "oauth:ago75v1lrj9kcvswiy4bbn9l31zv9mc";
     
     // Connection objects
 	static BufferedReader reader;
@@ -33,31 +34,29 @@ public class StartDecker {
 	static int _COUNT_3 = 0;
 	
 	// Bot Commands
-	static String startClassPoll = "!startarenaclasspick";
-	static String endClassPoll = "!endarenaclasspick";
-	static String startCardPoll = "!startcardpick";
-	static String endCardPoll= "!endcardpick";
+	public static String startClassPoll = "!startarenaclasspick";
+	public static String endClassPoll = "!endarenaclasspick";
+	public static String startCardPoll = "!startcardpick";
+	public static String endCardPoll= "!endcardpick";
 	
 	// Bot Options
-	static int currentCardIndex = 1;
+	public static int currentCardIndex = 1;
 	static boolean allowMultipleVotes = false;
 	boolean allowVoteChanges = false;
+	static boolean isPollOn = false;
 	
 	// Bot Timer Options (in seconds)
-	static int classTimer = 20;
-	static int cardTimer = 10;
-	static int twitchDelay = 5;
+	public static int classTimer = 10;
+	public static int cardTimer = 30;
+	public static int twitchDelay = 5;
 	
 	static Map<String,String> votes = new HashMap<String,String>();
 	private static int pollMaxResult = 0;
 	
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-
-		
+		// Create connection to IRC, build streams
 		setupEnvironment();
-		PollOverlay.main(null);
-		new CommandThread().start();
+				
 		ChatMessage msg;
 		String line = null;
 		while((line =  reader.readLine( )) != null) {
@@ -71,6 +70,11 @@ public class StartDecker {
 	            //System.out.println(line);
 	            if(msg!=null)
 	            {
+	        		StringWriter text = new StringWriter();
+	                PrintWriter out = new PrintWriter(text);
+	                out.println(PollManagerScreen.txtrTextArea.getText());
+	                out.printf(msg.toString());
+	                PollManagerScreen.txtrTextArea.setText(text.toString());
 	            	processMessage(msg);
 	            }
 	        } 
@@ -89,7 +93,7 @@ public class StartDecker {
 			if(msg.getText().equalsIgnoreCase(endClassPoll))
 			{
 				System.out.println("Option:" + findMax() + " with " + pollMaxResult + " votes out of " + (_COUNT_1+_COUNT_2+_COUNT_3));
-				processClassOption();
+				processClassOption(findMax());
 			}
 			if(msg.getText().equalsIgnoreCase(startCardPoll + currentCardIndex))
 			{
@@ -98,12 +102,12 @@ public class StartDecker {
 			if(msg.getText().equalsIgnoreCase(endCardPoll + currentCardIndex))
 			{
 				System.out.println("Card Order:" + currentCardIndex + "Option:" + findMax() + " with " + pollMaxResult + " votes out of " + (_COUNT_1+_COUNT_2+_COUNT_3));
-				processCardOption();
+				processCardOption(findMax());
 				currentCardIndex++;
 			}
 		}
 
-		if(allowMultipleVotes)
+		if(!isPollOn)
 		{
 			
 		}
@@ -133,25 +137,53 @@ public class StartDecker {
 		
 	}
 
-	private static void processCardOption() {
-		// TODO Auto-generated method stub
+	private static void processCardOption(int i) {
+		int c = PixelManager.sideCrop;
+		double r = PixelManager.ratio;
+		int x = 200;
+		int y = 300;
+		
+		// Select class
+		RobotManager.click(PollOverlayScreen.bounds.x + x*i*r + c,
+						   PollOverlayScreen.bounds.y + y*r + c);
+		
+		isPollOn = false;
 		
 	}
 
-	private static void processClassOption() {
-		// TODO Auto-generated method stub
+	private static void processClassOption(int i) {
+
+		int c = PixelManager.sideCrop;
+		double r = PixelManager.ratio;
+		int x = 200;
+		int y = 300;
 		
+		// Select class
+		RobotManager.click(PollOverlayScreen.bounds.x + x*i*r + c,
+						   PollOverlayScreen.bounds.y + y*r + c);
+
+		x = 500;
+		y = 600;
+		
+		// Click Choose Button
+		RobotManager.click(PollOverlayScreen.bounds.x + x*r + c,
+						   PollOverlayScreen.bounds.y + y*r + c);
+		
+		isPollOn = false;
+
 	}
 
-	private static String findMax() {
+
+
+	private static int findMax() {
 		
 		int max = 0;
-		String option = null;
-		if(_COUNT_1 > max) {max = _COUNT_1; option = _OPTION_1;}
-		if(_COUNT_2 > max) {max = _COUNT_2; option = _OPTION_2;}
-		else if(_COUNT_2 == max) return null;
-		if(_COUNT_3 > max) {max = _COUNT_3; option = _OPTION_3;}
-		else if(_COUNT_3 == max) return null;
+		int option = 0;
+		if(_COUNT_1 > max) {max = _COUNT_1; option = 1;}
+		if(_COUNT_2 > max) {max = _COUNT_2; option = 2;}
+		else if(_COUNT_2 == max) return 0;
+		if(_COUNT_3 > max) {max = _COUNT_3; option = 3;}
+		else if(_COUNT_3 == max) return 0;
 		
 		pollMaxResult  = max;
 		return option;
@@ -170,6 +202,7 @@ public class StartDecker {
 
 	private static void reset() {
 		votes.clear();
+		isPollOn = true;
 		set_COUNT_1(0);
 		set_COUNT_2(0);
 		set_COUNT_3(0);
@@ -192,9 +225,9 @@ public class StartDecker {
 	}
 
 	public static void set_COUNT_1(int _COUNT_1) {
-		StartDecker._COUNT_1 = _COUNT_1;
-		PollOverlay.lblCount1.setText(_COUNT_1 + "");
-		PollOverlay.contentPane.repaint();
+		ChatManager._COUNT_1 = _COUNT_1;
+		PollOverlayScreen.lblCount1.setText(_COUNT_1 + "");
+		PollOverlayScreen.contentPane.repaint();
 	}
 
 	public static int get_COUNT_2() {
@@ -202,8 +235,8 @@ public class StartDecker {
 	}
 
 	public static void set_COUNT_2(int _COUNT_2) {
-		StartDecker._COUNT_2 = _COUNT_2;
-		PollOverlay.lblCount2.setText(_COUNT_2 + "");
+		ChatManager._COUNT_2 = _COUNT_2;
+		PollOverlayScreen.lblCount2.setText(_COUNT_2 + "");
 	}
 
 	public static int get_COUNT_3() {
@@ -211,8 +244,8 @@ public class StartDecker {
 	}
 
 	public static void set_COUNT_3(int _COUNT_3) {
-		PollOverlay.lblCount3.setText(_COUNT_3 + "");
-		StartDecker._COUNT_3 = _COUNT_3;
+		PollOverlayScreen.lblCount3.setText(_COUNT_3 + "");
+		ChatManager._COUNT_3 = _COUNT_3;
 	}
 
 }

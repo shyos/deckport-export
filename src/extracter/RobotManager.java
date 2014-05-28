@@ -154,6 +154,30 @@ public class RobotManager {
 				e1.printStackTrace();
 		}
 	}
+	public static void click(double X, double Y)
+	{
+		Robot robot = null;
+		try {
+			robot = new Robot();
+			Thread.sleep(100);
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		robot.mouseMove((int)(X),(int)(Y));
+		robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+		robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+		
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public static Rectangle getWindowSize()
 	{
 		User32 user32 = User32.INSTANCE;

@@ -3,6 +3,7 @@ package twitch.play;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import twitch.chat.ChatManager;
 import twitch.chat.ChatParser;
 import twitch.chat.IRCConnection;
 
@@ -11,7 +12,7 @@ public class CommandThread extends Thread {
 	static BufferedWriter writer;
 	public void run() {
 		try {
-			IRCConnection irc = new IRCConnection(StartDecker.user, StartDecker.pass);
+			IRCConnection irc = new IRCConnection(ChatManager.user, ChatManager.pass);
 			try {
 				irc.connect();
 			} catch (IOException e) {
@@ -19,11 +20,11 @@ public class CommandThread extends Thread {
 			}
 			writer = irc.getWriter();
 			classSelection();
-			Thread.sleep(StartDecker.twitchDelay * 1000);
-			while(StartDecker.currentCardIndex <= 30)
+			Thread.sleep(ChatManager.twitchDelay * 1000);
+			while(ChatManager.currentCardIndex <= 30)
 			{
 				cardSelection();
-				Thread.sleep(StartDecker.twitchDelay * 1000);
+				Thread.sleep(ChatManager.twitchDelay * 1000);
 			}
 
 
@@ -37,17 +38,17 @@ public class CommandThread extends Thread {
 	}
 
 	private void cardSelection() throws IOException, InterruptedException {
-		write(StartDecker.startCardPoll
-				+ StartDecker.currentCardIndex);
-		Thread.sleep(StartDecker.cardTimer*1000);
-		write(StartDecker.endCardPoll
-				+ StartDecker.currentCardIndex);
+		write(ChatManager.startCardPoll
+				+ ChatManager.currentCardIndex);
+		Thread.sleep(ChatManager.cardTimer*1000);
+		write(ChatManager.endCardPoll
+				+ ChatManager.currentCardIndex);
 	}
 
 	private void classSelection() throws IOException, InterruptedException {
-		write(StartDecker.startClassPoll);
-		Thread.sleep(StartDecker.classTimer * 1000);
-		write(StartDecker.endClassPoll);
+		write(ChatManager.startClassPoll);
+		Thread.sleep(ChatManager.classTimer * 1000);
+		write(ChatManager.endClassPoll);
 	}
 	static void write(String text)
 	{

@@ -14,14 +14,18 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import extracter.Constants;
 import updater.Update;
 import updater.UpdateInfo;
 import updater.Updater;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 public class TrainingApp {
 	private JFrame frame;
@@ -71,6 +75,18 @@ public class TrainingApp {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		    	System.out.println(info.getName());
+		        if ("Windows Classic".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}
 		
 		frame = new JFrame("DeckPort | " + Constants.version);
 		frame.setBounds(100, 100, 408, 449);

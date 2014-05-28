@@ -27,6 +27,6 @@ public class ChatMessage {
 	}
 	public String toString()
 	{
-		return user + " : " + text;
+		return user + " > " + text;
 	}
 }

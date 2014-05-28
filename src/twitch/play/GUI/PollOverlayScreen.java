@@ -23,32 +23,19 @@ import javax.swing.SwingConstants;
 import main.WindowCapture;
 import java.awt.Font;
 
-public class PollOverlay extends JFrame {
+public class PollOverlayScreen extends JFrame {
 
 	public static JPanel contentPane;
 	public static JLabel lblCount1;
 	public static JLabel lblCount2;
 	public static JLabel lblCount3;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PollOverlay frame = new PollOverlay();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	public static Rectangle bounds;
+
 
 	/**
 	 * Create the frame.
 	 */
-	public PollOverlay() {
+	public PollOverlayScreen() {
 		WindowCapture WC = new WindowCapture();
 		PixelManager.setPixelManager();
 		Color countColor = new Color(255, 204, 0);
@@ -56,7 +43,8 @@ public class PollOverlay extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setUndecorated(true);
 		setBackground(new Color(0,0,0,0));
-        setBounds(RobotManager.getWindowSize());
+		bounds = RobotManager.getWindowSize();
+        setBounds(bounds);
         setAlwaysOnTop(true);
         setFocusable(false);
         
@@ -113,7 +101,7 @@ public class PollOverlay extends JFrame {
 		int c = PixelManager.sideCrop;
 		int ww = 20; // Window label
 		double r = PixelManager.ratio;
-		return new Rectangle((int)(c+x*r), (int)(ww + y*r), (int)(c+w*r), (int)(h*r));
+		return new Rectangle((int)(c+x*r-ww), (int)(y*r-ww), (int)(c+w*r), (int)(h*r));
 	}
 
 }
