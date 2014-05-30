@@ -144,7 +144,7 @@ public class WindowCapture extends JFrame {
 		PixelManager.ratio = expectedW/gw;
 		int expW = (int) expectedW;
 		int sideCrop = (w - expW)/2;
-
+		PixelManager.sideCrop = sideCrop;
 		int type = tempImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : tempImage.getType();
 		BufferedImage resizedImage = new BufferedImage(gw, gh, type);
 		Graphics2D g = resizedImage.createGraphics();

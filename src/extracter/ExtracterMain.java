@@ -218,7 +218,7 @@ public class ExtracterMain {
 		
 		    for(Card card : cards)
 		    {
-		    	if(card.getHash()!=null && card.getMana() >= manaFlag)
+		    	if(card.getHash()!=null) //&& card.getMana() >= manaFlag manaFlag condition removed
 		    	{
 				    long diff = 0;
 				    

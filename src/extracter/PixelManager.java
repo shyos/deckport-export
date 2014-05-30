@@ -58,12 +58,14 @@ public class PixelManager {
 			heightOfACard = 28;
 			cropHeight = 7;	
 			
+			System.out.println(sideCrop);
 			x_Search = (int) (sideCrop + 480*ratio);
 			y_Search = (int) (722*ratio);
 			x_SearchedCard = (int) (sideCrop + 120*ratio);
 			y_SearchedCard = (int) (250*ratio);
 			x_Scroll = (int)(sideCrop + 1000*ratio);
 			y_Scroll = (int) (100*ratio);
+			System.out.println(x_Scroll + " xxxxxxx " + y_Scroll);
 		}
 		
 	}

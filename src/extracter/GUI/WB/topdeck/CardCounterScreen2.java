@@ -133,7 +133,7 @@ public class CardCounterScreen2 extends JPanel {
 					side  = 1;
 				}
 				else{
-					CardCounterMain.frame.setBounds(CardCounterMain.frame.getX(), CardCounterMain.frame.getY(), 220, 50+deckItems.size()*31);
+					CardCounterMain.frame.setBounds(CardCounterMain.frame.getX(), CardCounterMain.frame.getY(), 220, 10+deckItems.size()*31);
 					CardCounterMain.frame.dispose();
 					CardCounterMain.frame.setUndecorated(true);
 					CardCounterMain.frame.setVisible(true);
