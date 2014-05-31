@@ -13,6 +13,7 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -29,6 +30,8 @@ import extracter.card.Card;
 import extracter.card.CardCount;
 import extracter.card.Deck;
 import extracter.card.DeckItem;
+import extracter.card.prob.ProbList;
+import extracter.card.prob.ProbListItem;
 
 public class ExtracterMain {
 	public static ArrayList<Card> cards;
@@ -40,7 +43,7 @@ public class ExtracterMain {
 	public static BufferedImage image;
 	public static int numberOfCardInDeck = 21;
 	private static ArrayList<CardCount> cardCounts;
-	
+	public static ArrayList<ProbList> probList;
 	public static void main(String[] args) throws IOException {
 		
 	//	buildEnvironment(); 
@@ -56,6 +59,7 @@ public class ExtracterMain {
 	public static Deck exportDeck(String deckName)
 	{
 		ArrayList<DeckItem> deckItems = new ArrayList<DeckItem>();
+		probList = new ArrayList<ProbList>();
 		buildEnvironment();
 		deckItems = fetchCards(image);
 		boolean isScrollable = true;
@@ -74,7 +78,23 @@ public class ExtracterMain {
 	// Merge two part of the deck. First part(without scroll) and second part(with scroll)
 	private static ArrayList<DeckItem> mergeDeckParts(ArrayList<DeckItem> part1,
 			ArrayList<DeckItem> part2) {
+		
+		ArrayList<ProbList> probListPart1 = new ArrayList<ProbList>();
+		probListPart1.addAll(probList.subList(0, part1.size()));
+		
+	/*	for(ProbList y : probListPart1)
+			System.out.println(y.getItems().getLast().getCard().getName() + " " + y.getProbMin());*/
+		
+		ArrayList<ProbList> probListPart2 = new ArrayList<ProbList>();
+		probListPart2.addAll(probList.subList(part1.size(),probList.size()));
+		
+		//makeDeckLogical(part1,probListPart1);
+		
+		//TODO bos deck handle edilebilmeli
+		//TODO yanlis kartlar duzeltilmeli
+		//TODO 
 		int j = 0;
+		boolean onStreak = false;
 		for(int i = 0; i<part1.size();i++)
 		{
 			// If two parts have shared cards skip them.
@@ -83,7 +103,17 @@ public class ExtracterMain {
 			if(part1.get(i).getCard().getHearthhead_id() == part2.get(j).getCard().getHearthhead_id())
 			{
 			//	System.out.println(part1.get(i).getCard().getName() + " is equal " + part2.get(j).getCard().getName());
+				onStreak = true;
 				j++;
+			}
+			else if(isInProbList(part1.get(i).getCard().getHearthhead_id(),probListPart2.get(j).getItems()))
+			{
+				onStreak = true;
+				j++;
+			}
+			else
+			{
+				if(onStreak == true) break;
 			}
 		}	
 		// Add left cards
@@ -118,6 +148,36 @@ public class ExtracterMain {
 			}
 		}
 		return mergedDeck;
+	}
+
+	private static boolean isInProbList(int id, LinkedList<ProbListItem> linkedList) {
+		
+		for(int i=0;i<linkedList.size();i++)
+			if(linkedList.get(i).getCard().getHearthhead_id() == id)
+				return true;
+		return false;
+	}
+
+	private static void makeDeckLogical(ArrayList<DeckItem> deck, ArrayList<ProbList> probList) {
+		// TODO Auto-generated method stub
+		int[] bankos = new int[deck.size()];
+		int[] manas = new int[deck.size()];
+		// Reset bankos
+		for(int i = 0; i<bankos.length; i++)
+		{
+			bankos[i] = 0;
+			manas[i] = 0;
+		}
+		// Find bankos level 1
+		for(int i = 0; i<probList.size(); i++)
+		{
+			if(probList.get(i).getProbMin() < 5)
+			{
+				bankos[i] = 1;
+				manas[i] = probList.get(i).getItems().getLast().getCard().getMana();
+			}
+		}
+		
 	}
 
 	// Sets up default variables and build environment
@@ -206,6 +266,7 @@ public class ExtracterMain {
 
 	    double maxDiff = 100;
 	    double diffPercent = 100;
+	    ProbList pL = new ProbList();
 	    Card returnCard = new Card("UNKNOWN");
 	    for(int h = 0; h<=lineIndex; h++)
 	    {
@@ -246,14 +307,19 @@ public class ExtracterMain {
 				    {
 				    	maxDiff = diffPercent;
 				    	returnCard = card;
-				    	System.out.println("Level: " + (h+1) + " Possible: " + card.getName() + " Similarity: " + diffPercent);
+				    	//System.out.println("Level: " + (h+1) + " Possible: " + card.getName() + " Similarity: " + diffPercent);
 				    }
-				    if(maxDiff < 2) break;
+				    if(diffPercent < pL.getProbMax())
+				    {
+				    	pL.add(card, diffPercent);
+				    }
+				    if(diffPercent < 2) break;
 		    	}
-		    	if(maxDiff < 2) break;
+		    	if(diffPercent < 2) break;
 		    }
-		    if(maxDiff < 2) break;
+		    if(diffPercent < 2) break;
 	    }
+	    probList.add(pL);
 	    System.out.println(returnCard.getName());
 	    return returnCard;
 	}
@@ -317,6 +383,7 @@ public class ExtracterMain {
 	    else 
 	    	return 1;
 	}
+	
 	// Deck Export
 	private static ArrayList<DeckItem> fetchCards(BufferedImage image) {
 		
@@ -324,8 +391,6 @@ public class ExtracterMain {
 		int manaFlag = 0;
 		for(int i=0;i<numberOfCardInDeck;i++)
 		{
-			//System.out.println("Giren Kart " + (i+1) );
-			
 			ExtractManager.cropImage(i, image);
 			DeckItem deckItem = matchCards(ExtractManager.subImage, ExtractManager.countImage, manaFlag);
 			if(!deckItem.getCard().getName().equals("UNKNOWN"))
@@ -448,8 +513,6 @@ public class ExtracterMain {
 		}
 	}
 	
-	
-
 	// Reads cards from resource txt
 	public static String readFromResourceFile(String filename) {
 			 
