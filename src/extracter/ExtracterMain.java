@@ -50,7 +50,7 @@ public class ExtracterMain {
 	//	readCards();
 	//	saveDeckManuel(image);		
 	//	saveDeckAuto(image);	
-	//	importNewCardsToOriginals("guicards.txt");
+		importNewCardsToOriginals("guicards.txt");
 	//	exportDeck("First");
 
 	}
@@ -72,7 +72,9 @@ public class ExtracterMain {
 			scrolledDeckItems = fetchCards(image);
 			deckItems = mergeDeckParts(deckItems, scrolledDeckItems);
 		}
-		return new Deck(deckItems, deckName);	
+		if(deckItems != null)
+			return new Deck(deckItems, deckName);
+		else return null;
 	}
 	
 	// Merge two part of the deck. First part(without scroll) and second part(with scroll)
@@ -106,7 +108,7 @@ public class ExtracterMain {
 				onStreak = true;
 				j++;
 			}
-			else if(isInProbList(part1.get(i).getCard().getHearthhead_id(),probListPart2.get(j).getItems()))
+			else if(probListPart2.get(j).isInProbList(part1.get(i).getCard().getHearthhead_id()))
 			{
 				onStreak = true;
 				j++;
@@ -120,12 +122,14 @@ public class ExtracterMain {
 		for(;j<part2.size();j++)
 		{
 			part1.add(part2.get(j));
+			probListPart1.add(probListPart2.get(j));
 		}	
 		// If deck reaches 30 card count, rip off rest
 		int count = 0;
 		int i;
 		j=0;
 		ArrayList<DeckItem> mergedDeck = new ArrayList<DeckItem>();
+		ArrayList<ProbList> mergedProbList = new ArrayList<ProbList>();
 		for(i=0;i<part1.size() && count<30;i++)
 		{
 			count+=part1.get(i).getCount();
@@ -138,27 +142,22 @@ public class ExtracterMain {
 				else
 				{
 					mergedDeck.add(part1.get(i));
+					mergedProbList.add(probListPart1.get(i));
 					j++;
 				}
 			}
 			else
 			{
 				mergedDeck.add(part1.get(i));
+				mergedProbList.add(probListPart1.get(i));
 				j++;
 			}
 		}
-		return mergedDeck;
+		return makeDeckLogical(mergedDeck, mergedProbList);
 	}
 
-	private static boolean isInProbList(int id, LinkedList<ProbListItem> linkedList) {
-		
-		for(int i=0;i<linkedList.size();i++)
-			if(linkedList.get(i).getCard().getHearthhead_id() == id)
-				return true;
-		return false;
-	}
 
-	private static void makeDeckLogical(ArrayList<DeckItem> deck, ArrayList<ProbList> probList) {
+	private static ArrayList<DeckItem> makeDeckLogical(ArrayList<DeckItem> deck, ArrayList<ProbList> probList) {
 		// TODO Auto-generated method stub
 		int[] bankos = new int[deck.size()];
 		int[] manas = new int[deck.size()];
@@ -171,13 +170,60 @@ public class ExtracterMain {
 		// Find bankos level 1
 		for(int i = 0; i<probList.size(); i++)
 		{
-			if(probList.get(i).getProbMin() < 5)
+			if(probList.get(i).getProbMin() < 6)
 			{
 				bankos[i] = 1;
 				manas[i] = probList.get(i).getItems().getLast().getCard().getMana();
 			}
 		}
+		// Find level 2
+		for(int i=0;i<deck.size();i++)
+		{
+			if(bankos[i] == 0)
+			{
+				int lowM = findPrevMana(manas, i);
+				int highM = findNextMana(manas, i);
+				Card card = probList.get(i).getBestCardWithMana(lowM,highM);
+				if(!card.getName().equals("UNKNOWN"))
+				{
+					bankos[i] = 1;
+					manas[i] = card.getMana();
+				}
+				deck.get(i).setCard(card);
+			}
+		}
 		
+		//Invalid deck page
+		int count = 0;
+		for(int i=0; i<deck.size();i++)
+		{
+			count += deck.get(i).getCount();
+		}
+		
+		if(count < 30)
+			return null;
+		if(deck.size() < 15)
+			return null;
+		
+		return deck;
+	}
+
+	private static int findNextMana(int[] manas, int i) {
+		for(int j=i;j<manas.length;j++)
+			if(manas[j] > 0)
+			{
+				return manas[j];
+			}
+		return 20;
+	}
+
+	private static int findPrevMana(int[] manas, int i) {
+		for(int j=i;j>=0;j--)
+			if(manas[j] > 0)
+			{
+				return manas[j];
+			}
+		return 0;
 	}
 
 	// Sets up default variables and build environment
@@ -302,7 +348,6 @@ public class ExtracterMain {
 				    double n = width1 * height1 * 3;
 				    double p = diff / n / 255.0;
 				    diffPercent = (p * 100.0);
-
 				    if(diffPercent < maxDiff)
 				    {
 				    	maxDiff = diffPercent;
@@ -320,7 +365,7 @@ public class ExtracterMain {
 		    if(diffPercent < 2) break;
 	    }
 	    probList.add(pL);
-	    System.out.println(returnCard.getName());
+	   // System.out.println(returnCard.getName());
 	    return returnCard;
 	}
 	// Sometimes images position changes few lines, to overcome this also check those coordinates (for the card counts).
@@ -370,7 +415,7 @@ public class ExtracterMain {
 				    {
 				    	maxDiff = diffPercent;
 				    	returnCount = cc.getCount();
-				    	System.out.println("Level: " + (h+1) + " Possible: " + cc.getDescription() + " Similarity: " + diffPercent);
+				    //	System.out.println("Level: " + (h+1) + " Possible: " + cc.getDescription() + " Similarity: " + diffPercent);
 				    }
 				    if(maxDiff < 2) break;
 		    	}

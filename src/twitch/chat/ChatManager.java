@@ -1,5 +1,7 @@
 package twitch.chat;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -46,9 +48,9 @@ public class ChatManager {
 	static boolean isPollOn = false;
 	
 	// Bot Timer Options (in seconds)
-	public static int classTimer = 10;
+	public static int classTimer = 30;
 	public static int cardTimer = 30;
-	public static int twitchDelay = 5;
+	public static int twitchDelay = 27;
 	
 	static Map<String,String> votes = new HashMap<String,String>();
 	private static int pollMaxResult = 0;
@@ -94,6 +96,7 @@ public class ChatManager {
 			{
 				System.out.println("Option:" + findMax() + " with " + pollMaxResult + " votes out of " + (_COUNT_1+_COUNT_2+_COUNT_3));
 				processClassOption(findMax());
+				reset();
 			}
 			if(msg.getText().equalsIgnoreCase(startCardPoll + currentCardIndex))
 			{
@@ -103,6 +106,7 @@ public class ChatManager {
 			{
 				System.out.println("Card Order:" + currentCardIndex + "Option:" + findMax() + " with " + pollMaxResult + " votes out of " + (_COUNT_1+_COUNT_2+_COUNT_3));
 				processCardOption(findMax());
+				reset();
 				currentCardIndex++;
 			}
 		}
@@ -114,19 +118,19 @@ public class ChatManager {
 		else
 		{
 			// If user didnt cast his vote yet, let him vote
-			//if(!votes.keySet().contains(msg.getUser()))
+			if(!votes.keySet().contains(msg.getUser()))
 			{
-				if(msg.getText().equalsIgnoreCase(_OPTION_1))
+				if(msg.getText().startsWith(_OPTION_1))
 				{
 					votes.put(msg.getUser(), _OPTION_1);
 					set_COUNT_1(++_COUNT_1);
 				}
-				if(msg.getText().equalsIgnoreCase(_OPTION_2))
+				if(msg.getText().startsWith(_OPTION_2))
 				{
 					votes.put(msg.getUser(), _OPTION_2);
 					set_COUNT_2(++_COUNT_2);
 				}
-				if(msg.getText().equalsIgnoreCase(_OPTION_3))
+				if(msg.getText().startsWith(_OPTION_3))
 				{
 					votes.put(msg.getUser(), _OPTION_3);
 					set_COUNT_3(++_COUNT_3);
@@ -149,6 +153,19 @@ public class ChatManager {
 		
 		isPollOn = false;
 		
+		Robot robot = null;
+		try {
+			robot = new Robot();
+			Thread.sleep(100);
+			robot.mouseMove((int)(10),(int)(10));
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	private static void processClassOption(int i) {
@@ -181,9 +198,9 @@ public class ChatManager {
 		int option = 0;
 		if(_COUNT_1 > max) {max = _COUNT_1; option = 1;}
 		if(_COUNT_2 > max) {max = _COUNT_2; option = 2;}
-		else if(_COUNT_2 == max) return 0;
+		//else if(_COUNT_2 == max) return 0;
 		if(_COUNT_3 > max) {max = _COUNT_3; option = 3;}
-		else if(_COUNT_3 == max) return 0;
+		//else if(_COUNT_3 == max) return 0;
 		
 		pollMaxResult  = max;
 		return option;

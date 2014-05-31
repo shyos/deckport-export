@@ -30,7 +30,7 @@ public class CountManager {
 	public static void saveCardCountManuel(BufferedImage image) {
 		Scanner scanIn = new Scanner(System.in);
 		//Match Cards
-		for(int k=0;k<2;k++)
+		for(int k=0;k<20;k++)
 		{
 			cropImage(k, image);
 			System.out.println((k+1) + ". kartin sayisini giriniz: ");
@@ -59,7 +59,8 @@ public class CountManager {
 								  card.getCount().getH()); //crop image
 
 	    subImage = image;
-	  //  ExtracterMain.WC.showFrame(subImage);
+
+	    ExtracterMain.WC.showFrame(subImage);
 	}
 	private static void readCardCounts() {
 		String cardcountsText = ExtracterMain.readFromResourceFile("/txt/cardcounts.txt");

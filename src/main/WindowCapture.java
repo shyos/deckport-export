@@ -133,6 +133,13 @@ public class WindowCapture extends JFrame {
     }
     public void captureHwnd(){
     	this.image = capture(hWnd);
+   /* 	try {
+			this.image =  ImageIO.read(new File("bb.png"));
+			//showFrame(image);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
     	this.image = convert(image);
     }
     private BufferedImage convert(BufferedImage tempImage) {

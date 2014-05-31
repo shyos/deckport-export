@@ -40,19 +40,19 @@ public class PixelManager {
 	private static void initWithResolution() {
 		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
 		{
-			x_FirstCard = 800;
-			y_FirstCard = 80;
+			x_FirstCard = (int) (sideCrop + 800*ratio);
+			y_FirstCard = (int) (80*ratio);
 			
-			x_Mana = 800;
-			x_Text = 821;
-			x_Image = 895;
-			x_Count = 950;
+			x_Mana = (int) (sideCrop + 800*ratio);
+			x_Text = (int) (sideCrop + 821*ratio);
+			x_Image = (int) (895*ratio + sideCrop);
+			x_Count = (int) (950*ratio + sideCrop);
 			
-			w_Mana = 15;
-			w_Text = 90;
-			w_Image = 50;
-			w_Count = 12;
-			w_Full = 140;
+			w_Mana = (int) (15*ratio);
+			w_Text = (int) (90*ratio);
+			w_Image = (int) (50*ratio);
+			w_Count = (int) (12*ratio);
+			w_Full = (int) (140*ratio);
 			
 			gap = 1;
 			heightOfACard = 28;
@@ -65,7 +65,6 @@ public class PixelManager {
 			y_SearchedCard = (int) (250*ratio);
 			x_Scroll = (int)(sideCrop + 1000*ratio);
 			y_Scroll = (int) (100*ratio);
-			System.out.println(x_Scroll + " xxxxxxx " + y_Scroll);
 		}
 		
 	}

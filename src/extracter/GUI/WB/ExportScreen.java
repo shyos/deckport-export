@@ -44,7 +44,10 @@ public class ExportScreen extends JPanel {
 				if(ExtracterMain.checkResolution())
 				{
 					deck = ExtracterMain.exportDeck(txtDeckname.getText());
-					list.setListData(deck.toArray());
+					if(deck == null)
+						TrainingApp.showMessageDialog(null, "Deckpage is invalid. Possible Reasons:\n - You are not on deck page\n - Deck is not complete.");
+					else
+						list.setListData(deck.toArray());
 				}
 			}
 		});

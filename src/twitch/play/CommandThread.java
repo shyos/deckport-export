@@ -18,16 +18,14 @@ public class CommandThread extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			Thread.sleep(ChatManager.twitchDelay * 1000);
 			writer = irc.getWriter();
 			classSelection();
-			Thread.sleep(ChatManager.twitchDelay * 1000);
 			while(ChatManager.currentCardIndex <= 30)
 			{
-				cardSelection();
 				Thread.sleep(ChatManager.twitchDelay * 1000);
+				cardSelection();
 			}
-
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

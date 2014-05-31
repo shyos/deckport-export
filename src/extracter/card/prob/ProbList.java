@@ -38,9 +38,6 @@ public class ProbList{
 		}
 		probMax = items.get(0).getProb();
 		probMin = items.get(items.size()-1).getProb();
-	/*	System.out.println("Possible Card List Start");
-		for(ProbListItem y : items)
-			System.out.println(y.getCard().getName() + " " +  y.getProb());*/
 	}
 
 	public LinkedList<ProbListItem> getItems() {
@@ -66,4 +63,23 @@ public class ProbList{
 	public void setProbMin(double probMin) {
 		this.probMin = probMin;
 	}
+
+	public boolean isInProbList(int id) {
+		for(int i=0;i<items.size();i++)
+			if(items.get(i).getCard().getHearthhead_id() == id)
+				if(items.get(i).getProb()-items.getLast().getProb() < 5)
+				return true;
+		return false;
+	}
+
+	public Card getBestCardWithMana(int lowM, int highM) {
+		for(int i=items.size()-1;i>=0;i--)
+			if(items.get(i).getCard().getMana()>=lowM && items.get(i).getCard().getMana() <= highM)
+				if(items.get(i).getProb()-items.getLast().getProb() < 5)
+				{
+					return items.get(i).getCard();
+				}
+		return new Card("UNKNOWN");
+	}
+
 }

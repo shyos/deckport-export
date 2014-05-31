@@ -21,6 +21,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import extracter.ExtracterMain;
+import extracter.GUI.WB.TrainingApp;
 import extracter.card.Deck;
 
 import java.awt.Font;
@@ -73,16 +74,21 @@ public  class CardCounterFrame extends JFrame {
 				if(ExtracterMain.checkResolution())
 				{
 					Deck deck = ExtracterMain.exportDeck("TopDeck");
-					card3 = new CardCounterScreen2(deck);
-					JScrollPane myScroll = new JScrollPane(card3);
-					myScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-					myScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-					panel.setBounds(0, 0, 220, 50+deck.getCards().size()*31);
-					myScroll.setPreferredSize(new Dimension(220,50+deck.getCards().size()*31));
-					setBounds(100, 100, 396, 50+deck.getCards().size()*31);
-					panel.add(myScroll,"CARD2");
-					CardLayout cl = (CardLayout)(panel.getLayout());
-				    cl.show(panel, "CARD2");
+					if(deck == null)
+						TrainingApp.showMessageDialog(null, "Deckpage is invalid. Possible Reasons:\n - You are not on deck page\n - Deck is not complete.\n");
+					else
+					{
+						card3 = new CardCounterScreen2(deck);
+						JScrollPane myScroll = new JScrollPane(card3);
+						myScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+						myScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+						panel.setBounds(0, 0, 220, 50+deck.getCards().size()*31);
+						myScroll.setPreferredSize(new Dimension(220,50+deck.getCards().size()*31));
+						setBounds(100, 100, 396, 50+deck.getCards().size()*31);
+						panel.add(myScroll,"CARD2");
+						CardLayout cl = (CardLayout)(panel.getLayout());
+					    cl.show(panel, "CARD2");
+					}
 				}
 			}
 		});
