@@ -134,7 +134,6 @@ public class SettingsScreen extends JPanel {
 		
 		textField_3 = new JTextField("90");
 		textField_3.setBounds(341, 62, 86, 20);
-		textField_3.setEditable(false);
 		add(textField_3);
 		
 		JLabel lblCardTimer = new JLabel("Card Timer:");
@@ -143,7 +142,6 @@ public class SettingsScreen extends JPanel {
 		
 		textField_4 = new JTextField("45");
 		textField_4.setBounds(341, 93, 86, 20);
-		textField_4.setEditable(false);
 		add(textField_4);
 		
 		JLabel lblStreamDelay = new JLabel("Stream Delay:");
@@ -152,7 +150,6 @@ public class SettingsScreen extends JPanel {
 		
 		textField_5 = new JTextField("10");
 		textField_5.setBounds(341, 124, 86, 20);
-		textField_5.setEditable(false);
 		add(textField_5);
 		
 		JSeparator separator = new JSeparator();

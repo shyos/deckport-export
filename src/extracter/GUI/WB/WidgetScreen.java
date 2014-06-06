@@ -3,6 +3,7 @@ package extracter.GUI.WB;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 
+import twitch.TPAMain;
 import extracter.GUI.WB.topdeck.CardCounterMain;
 import extracter.GUI.WB.winlose.ScoreTrackerMain;
 
@@ -23,7 +24,7 @@ public class WidgetScreen extends JPanel {
 				CardCounterMain.main(null);
 			}
 		});
-		btnDeckTracker.setBounds(102, 83, 200, 38);
+		btnDeckTracker.setBounds(102, 55, 200, 38);
 		add(btnDeckTracker);
 		
 		JButton btnScoreTracker = new JButton("Score Tracker");
@@ -32,9 +33,17 @@ public class WidgetScreen extends JPanel {
 				ScoreTrackerMain.main(null);
 			}
 		});
-		btnScoreTracker.setBounds(102, 148, 200, 38);
+		btnScoreTracker.setBounds(102, 104, 200, 38);
 		add(btnScoreTracker);
+		
+		JButton btnTwitchPlaysArena = new JButton("Twitch Plays Arena");
+		btnTwitchPlaysArena.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TPAMain.main(null);
+			}
+		});
+		btnTwitchPlaysArena.setBounds(102, 153, 200, 38);
+		add(btnTwitchPlaysArena);
 
 	}
-
 }

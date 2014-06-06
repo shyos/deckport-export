@@ -36,6 +36,7 @@ public class TrainingApp {
 	public static ExportScreen card4 = new ExportScreen();
 	public static ImportScreen card5 = new ImportScreen();
 	public static WidgetScreen card6 = new WidgetScreen();
+	public static AboutScreen card7 = new AboutScreen();
 	/**
 	 * Launch the application.
 	 */
@@ -106,6 +107,7 @@ public class TrainingApp {
 		panel.add(card4,"EXPORT");
 		panel.add(card5,"IMPORT");
 		panel.add(card6,"WIDGET");
+		panel.add(card7,"ABOUT");
 		Button homeButton = new Button("Home");
 		homeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -153,6 +155,12 @@ public class TrainingApp {
 		menuBar.add(widgetButton);
 		
 		Button aboutButton = new Button("About");
+		aboutButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout)(panel.getLayout());
+			    cl.show(panel, "ABOUT");
+			}
+		});
 		menuBar.add(aboutButton);
 		frame.getContentPane().setLayout(null);
 		

@@ -39,7 +39,7 @@ public class TPAFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public TPAFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		if(FileManager.exists(Constants.TPAFilename))
 		{	
 			String txt = FileManager.readFromFile(Constants.TPAFilename);
