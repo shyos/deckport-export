@@ -41,9 +41,9 @@ public class IRCConnection {
 		try {
 			socket = new Socket(SERVER, PORT);
 		    writer = new BufferedWriter(
-		                new OutputStreamWriter(socket.getOutputStream( )));
+		                new OutputStreamWriter(socket.getOutputStream( ),"UTF8"));
 		    reader = new BufferedReader(
-		                new InputStreamReader(socket.getInputStream( )));
+		                new InputStreamReader(socket.getInputStream( ),"UTF8"));
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
