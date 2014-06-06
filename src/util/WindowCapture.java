@@ -1,4 +1,4 @@
-package main;
+package util;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;

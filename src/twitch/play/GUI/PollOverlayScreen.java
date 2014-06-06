@@ -20,7 +20,8 @@ import java.awt.Insets;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
 
-import main.WindowCapture;
+import util.WindowCapture;
+
 import java.awt.Font;
 
 public class PollOverlayScreen extends JFrame {

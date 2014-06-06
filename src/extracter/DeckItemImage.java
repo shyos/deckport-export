@@ -1,6 +1,6 @@
 package extracter;
 
-import main.Myrect;
+import util.Myrect;
 
 public class DeckItemImage {
 	private Myrect mana;

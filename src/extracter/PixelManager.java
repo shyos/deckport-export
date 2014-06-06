@@ -1,6 +1,6 @@
 package extracter;
 
-import main.Myrect;
+import util.Myrect;
 
 public class PixelManager {	
 	private static int x_FirstCard;			// X of first card

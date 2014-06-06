@@ -16,19 +16,24 @@ import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import twitch.play.ChatThread;
+import twitch.play.PlayConstants;
+import twitch.play.PlayOptions;
+import twitch.play.PlayThread;
+import util.FileManager;
+import extracter.Constants;
 import extracter.GUI.WB.TrainingApp;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+@SuppressWarnings("serial")
 public class SettingsScreen extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JPasswordField  textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	public static JTextField textField;
+	public static JTextField textField_1;
+	public static JPasswordField  textField_2;
+	public static JTextField textField_3;
+	public static JTextField textField_4;
+	public static JTextField textField_5;
 
 	/**
 	 * Create the panel.
@@ -86,7 +91,7 @@ public class SettingsScreen extends JPanel {
 				{
 					TrainingApp.showMessageDialog(null, "Username cannot be empty. Should be twitch username");
 				}
-				else if(textField_2.getPassword()==null)
+				else if(textField_2.getPassword().length == 0)
 				{
 					TrainingApp.showMessageDialog(null, "oAuth code cannot be empty. Acquire it from http://twitchapps.com/tmi/");
 				}
@@ -105,7 +110,14 @@ public class SettingsScreen extends JPanel {
 				else{
 					CardLayout cl = (CardLayout)(TPAFrame.contentPane.getLayout());
 				    cl.show(TPAFrame.contentPane, "POLL");
-				    new ChatThread().start();
+				    PlayOptions po = new PlayOptions(textField.getText(),
+				    					 textField_1.getText(),
+				    					 textField_2.getPassword(),
+				    					 textField_3.getText(),
+				    					 textField_4.getText(),
+				    					 textField_5.getText());
+				    FileManager.writeToFile(po, Constants.TPAFilename);
+				    new PlayThread().start();
 				}
 			}
 		});

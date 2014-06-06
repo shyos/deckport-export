@@ -1,7 +1,9 @@
 package twitch.chat;
 
+import twitch.play.PlayConstants;
+
 public class ChatParser {
-	public static String channel = "#shyug";
+	public static String channel = PlayConstants.channel;
 	public static ChatMessage parse(String line)
 	{
 		if(line.contains("PRIVMSG "+channel))

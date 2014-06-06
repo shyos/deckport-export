@@ -20,7 +20,7 @@ import java.util.Scanner;
 
 import org.apache.commons.io.IOUtils;
 
-import main.WindowCapture;
+import util.WindowCapture;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -50,7 +50,7 @@ public class ExtracterMain {
 	//	readCards();
 	//	saveDeckManuel(image);		
 	//	saveDeckAuto(image);	
-		importNewCardsToOriginals("guicards.txt");
+	//	importNewCardsToOriginals("guicards.txt");
 	//	exportDeck("First");
 
 	}

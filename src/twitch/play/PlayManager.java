@@ -1,4 +1,4 @@
-package twitch.chat;
+package twitch.play;
 
 import java.awt.AWTException;
 import java.awt.Robot;
@@ -10,15 +10,18 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import twitch.chat.ChatMessage;
+import twitch.chat.ChatParser;
+import twitch.chat.IRCConnection;
 import twitch.play.GUI.PollManagerScreen;
 import twitch.play.GUI.PollOverlayScreen;
 import extracter.PixelManager;
 import extracter.RobotManager;
 
-public class ChatManager {
+public class PlayManager {
     // Connection infos
-	public static String user = "shyug";
-	public static String pass = "oauth:ago75v1lrj9kcvswiy4bbn9l31zv9mc";
+	public static String user = PlayConstants.user;
+	public static String pass = PlayConstants.oAuth;
     
     // Connection objects
 	static BufferedReader reader;
@@ -48,9 +51,9 @@ public class ChatManager {
 	static boolean isPollOn = false;
 	
 	// Bot Timer Options (in seconds)
-	public static int classTimer = 30;
-	public static int cardTimer = 30;
-	public static int twitchDelay = 27;
+	public static int classTimer = PlayConstants.classDelay;
+	public static int cardTimer = PlayConstants.cardDelay;
+	public static int twitchDelay = PlayConstants.twitchDelay;
 	
 	static Map<String,String> votes = new HashMap<String,String>();
 	private static int pollMaxResult = 0;
@@ -242,7 +245,7 @@ public class ChatManager {
 	}
 
 	public static void set_COUNT_1(int _COUNT_1) {
-		ChatManager._COUNT_1 = _COUNT_1;
+		PlayManager._COUNT_1 = _COUNT_1;
 		PollOverlayScreen.lblCount1.setText(_COUNT_1 + "");
 		PollOverlayScreen.contentPane.repaint();
 	}
@@ -252,7 +255,7 @@ public class ChatManager {
 	}
 
 	public static void set_COUNT_2(int _COUNT_2) {
-		ChatManager._COUNT_2 = _COUNT_2;
+		PlayManager._COUNT_2 = _COUNT_2;
 		PollOverlayScreen.lblCount2.setText(_COUNT_2 + "");
 	}
 
@@ -262,7 +265,7 @@ public class ChatManager {
 
 	public static void set_COUNT_3(int _COUNT_3) {
 		PollOverlayScreen.lblCount3.setText(_COUNT_3 + "");
-		ChatManager._COUNT_3 = _COUNT_3;
+		PlayManager._COUNT_3 = _COUNT_3;
 	}
 
 }

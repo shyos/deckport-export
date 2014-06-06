@@ -8,6 +8,8 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import twitch.play.PlayConstants;
+
 public class IRCConnection {
 
 	// Server Info
@@ -15,9 +17,9 @@ public class IRCConnection {
 	private int PORT = 6667;
 	
 	// Connection Info
-    private String nick = "shyug";
-    private String user = "shyug";
-    private String oAuth = "oauth:ago75v1lrj9kcvswiy4bbn9l31zv9mc";
+    private String nick = PlayConstants.user;
+    private String user = PlayConstants.user;
+    private String oAuth = PlayConstants.oAuth;
     
 
 	private BufferedWriter writer;
