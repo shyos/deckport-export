@@ -16,6 +16,7 @@ public class PlayOptions {
 		this.classDelay = Integer.parseInt(string3);
 		this.cardDelay = Integer.parseInt(string4);
 		this.twitchDelay = Integer.parseInt(string5);
+		setAll();
 	}
 	public void setAll() {
 		PlayConstants.user = user;

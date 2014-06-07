@@ -61,7 +61,7 @@ public class PlayManager {
 	public static void main(String[] args) throws IOException {
 		// Create connection to IRC, build streams
 		setupEnvironment();
-				
+		if(PlayConstants.codeError == 2) return;
 		ChatMessage msg;
 		String line = null;
 		while((line =  reader.readLine( )) != null) {

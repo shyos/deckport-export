@@ -2,6 +2,7 @@ package twitch;
 
 import java.awt.EventQueue;
 
+import extracter.GUI.WB.TrainingApp;
 import twitch.play.GUI.PollOverlayScreen;
 
 public class PollOverlayMain {
@@ -13,7 +14,7 @@ public class PollOverlayMain {
 					frame = new PollOverlayScreen();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					TrainingApp.showMessageDialog(null, "Hearthstone.exe screen not found.");
 				}
 			}
 		});

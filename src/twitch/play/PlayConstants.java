@@ -9,5 +9,6 @@ public class PlayConstants {
 	public static int classDelay;
 	public static int cardDelay;
 	public static int twitchDelay;
+	public static int codeError = 0;
 	
 }

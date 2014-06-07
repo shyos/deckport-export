@@ -1,5 +1,6 @@
 package twitch.chat;
 
+import java.awt.CardLayout;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -8,7 +9,11 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import extracter.GUI.WB.TrainingApp;
+import twitch.TPAMain;
 import twitch.play.PlayConstants;
+import twitch.play.PlayThread;
+import twitch.play.GUI.TPAFrame;
 
 public class IRCConnection {
 
@@ -70,12 +75,26 @@ public class IRCConnection {
                 // We are now logged in.
                 break;
             }
+            else if(line.contains("Login unsuccessful"))
+            {
+            	TrainingApp.showMessageDialog(null, "Login unsuccesful. oAuth code might be wrong. Acquire it from http://twitchapps.com/tmi/");
+            	PlayConstants.codeError = 2;
+            	return;
+            }
             else if (line.indexOf("433") >= 0) {
                 System.out.println("Nickname is already in use.");
                 return;
             }
         }
-
+        if(PlayConstants.codeError != 2)
+        {
+        	CardLayout cl = (CardLayout)(TPAFrame.contentPane.getLayout());
+	    	cl.show(TPAFrame.contentPane, "POLL");
+        }
+        else if(PlayConstants.codeError == 2)
+        {
+        	return;
+        }
         writer.write("JOIN " + ChatParser.channel + "\r\n");
         writer.flush( );
 	}

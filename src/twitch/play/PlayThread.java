@@ -13,4 +13,7 @@ public class PlayThread extends Thread {
 		}
 		
 	}
+	public static void exit()
+	{
+	}
 }

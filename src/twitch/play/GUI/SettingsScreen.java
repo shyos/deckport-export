@@ -108,8 +108,6 @@ public class SettingsScreen extends JPanel {
 					TrainingApp.showMessageDialog(null, "Stream Delay shouldnt be empty.");
 				}
 				else{
-					CardLayout cl = (CardLayout)(TPAFrame.contentPane.getLayout());
-				    cl.show(TPAFrame.contentPane, "POLL");
 				    PlayOptions po = new PlayOptions(textField.getText(),
 				    					 textField_1.getText(),
 				    					 textField_2.getPassword(),
@@ -132,7 +130,7 @@ public class SettingsScreen extends JPanel {
 		lblNewLabel.setBounds(248, 65, 83, 14);
 		add(lblNewLabel);
 		
-		textField_3 = new JTextField("90");
+		textField_3 = new JTextField("60");
 		textField_3.setBounds(341, 62, 86, 20);
 		add(textField_3);
 		
@@ -140,7 +138,7 @@ public class SettingsScreen extends JPanel {
 		lblCardTimer.setBounds(248, 96, 83, 14);
 		add(lblCardTimer);
 		
-		textField_4 = new JTextField("45");
+		textField_4 = new JTextField("60");
 		textField_4.setBounds(341, 93, 86, 20);
 		add(textField_4);
 		
@@ -148,7 +146,7 @@ public class SettingsScreen extends JPanel {
 		lblStreamDelay.setBounds(248, 127, 83, 14);
 		add(lblStreamDelay);
 		
-		textField_5 = new JTextField("10");
+		textField_5 = new JTextField("30");
 		textField_5.setBounds(341, 124, 86, 20);
 		add(textField_5);
 		
