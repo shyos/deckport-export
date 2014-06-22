@@ -15,6 +15,10 @@ public class ExtractManager {
 	{
 		DeckItemImage card = new DeckItemImage(order);
 		
+		System.out.println(card.getText().getX() + " , " +
+								  card.getText().getY() + " , " +
+								  card.getText().getW() + " , " +
+								  card.getText().getH());
 		subImage = image.getSubimage(card.getText().getX(),
 								  card.getText().getY(),
 								  card.getText().getW(),

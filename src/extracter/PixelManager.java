@@ -40,19 +40,19 @@ public class PixelManager {
 	private static void initWithResolution() {
 		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
 		{
-			x_FirstCard = (int) (sideCrop + 800*ratio);
-			y_FirstCard = (int) (80*ratio);
+			x_FirstCard = (int) (800);
+			y_FirstCard = (int) (80);
 			
-			x_Mana = (int) (sideCrop + 800*ratio);
-			x_Text = (int) (sideCrop + 821*ratio);
-			x_Image = (int) (895*ratio + sideCrop);
-			x_Count = (int) (950*ratio + sideCrop);
+			x_Mana = (int) (800);
+			x_Text = (int) (821);
+			x_Image = (int) (895);
+			x_Count = (int) (950);
 			
-			w_Mana = (int) (15*ratio);
-			w_Text = (int) (90*ratio);
-			w_Image = (int) (50*ratio);
-			w_Count = (int) (12*ratio);
-			w_Full = (int) (140*ratio);
+			w_Mana = (int) (15);
+			w_Text = (int) (90);
+			w_Image = (int) (50);
+			w_Count = (int) (12);
+			w_Full = (int) (140);
 			
 			gap = 1;
 			heightOfACard = 28;

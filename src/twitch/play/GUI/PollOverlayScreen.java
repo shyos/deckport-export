@@ -41,7 +41,7 @@ public class PollOverlayScreen extends JFrame {
 		PixelManager.setPixelManager();
 		Color countColor = new Color(255, 204, 0);
 		Color orderColor = Color.RED;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setUndecorated(true);
 		setBackground(new Color(0,0,0,0));
 		bounds = RobotManager.getWindowSize();
