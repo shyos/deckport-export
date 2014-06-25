@@ -62,7 +62,6 @@ public class PixelManager {
 			heightOfACard = 28;
 			cropHeight = 7;	
 			
-			System.out.println(sideCrop);
 			x_Search = (int) (sideCrop + 480*ratio);
 			y_Search = (int) (722*ratio);
 			x_SearchedCard = (int) (sideCrop + 120*ratio);

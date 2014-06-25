@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.Gson;
@@ -39,6 +41,15 @@ public class ExtracterMain {
 	private static int numberOfCardInDeck = 21;
 	private static ArrayList<CardCount> cardCounts;
 	private static ArrayList<ProbList> probList;
+	public static void main(String[] args) throws IOException{
+		BufferedImage img = ImageIO.read(new File("part1.png"));
+		BufferedImage imgScroll = ImageIO.read(new File("part2.png"));
+		Deck deck  = exportDeck("test", img, imgScroll);
+		for(DeckItem dI : deck.getCards())
+		{
+			System.out.println(dI.getCard().getName() + " x" + dI.getCount());
+		}
+	}
 	
 	/**
 	 * Extracts Cards Image from Deck Image and converts into Deck Object.<br /><br />
@@ -416,13 +427,13 @@ public class ExtracterMain {
 			DeckItem deckItem = matchCards(ExtractManager.subImage, ExtractManager.countImage, manaFlag);
 			if(!deckItem.getCard().getName().equals("UNKNOWN"))
 			{
-				System.out.println((i+1) + "/"+ numberOfCardInDeck + " - " + deckItem.toString());
+				//System.out.println((i+1) + "/"+ numberOfCardInDeck + " - " + deckItem.toString());
 				deckItem.setImage(ExtractManager.deckItemImage);
 				deckItems.add(deckItem);
 			}
 			else
 			{
-				System.out.println("Bu kart henüz sisteme tanýtýlmamýþ.");
+				System.out.println("This card does not have any trained data.");
 				deckItems.add(deckItem);
 			}
 			manaFlag = deckItem.getCard().getMana();
