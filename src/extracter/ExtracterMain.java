@@ -1,5 +1,10 @@
+/**
+ * @author shyos
+ */
 package extracter;
 
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,7 +41,12 @@ public class ExtracterMain {
 	private static ArrayList<ProbList> probList;
 	
 	/**
-	 * Extracts Cards Image from Deck Image and converts into Deck Object.
+	 * Extracts Cards Image from Deck Image and converts into Deck Object.<br /><br />
+	 * 
+	 * <h3>How to use?</h3>
+	 * Take two screenshots of hearthstone deck page. 'img' for normal and 'imgScroll' for scrolled part of the deck
+	 * and then call this method.<br/>
+	 * 
 	 * @param deckName - name of the deck
 	 * @param img - first part of the deck image
 	 * @param imgScroll - second part of the deck image (Scrolled Deck Image)
@@ -44,20 +54,23 @@ public class ExtracterMain {
 	 */
 	public static Deck exportDeck(String deckName, BufferedImage img, BufferedImage imgScroll)
 	{
+		BufferedImage img1 = rescaleImage(img);
+		buildEnvironment();
 		ArrayList<DeckItem> deckItems = new ArrayList<DeckItem>();
 		probList = new ArrayList<ProbList>();
-		deckItems = fetchCards(img);
+		deckItems = fetchCards(img1);
 		boolean isScrollable = true;
 		if(isScrollable)
 		{
 			ArrayList<DeckItem> scrolledDeckItems = new ArrayList<DeckItem>();
-			scrolledDeckItems = fetchCards(imgScroll);
+			BufferedImage img2 = rescaleImage(imgScroll);
+			PixelManager.setPixelManager();
+			scrolledDeckItems = fetchCards(img2);
 			deckItems = mergeDeckParts(deckItems, scrolledDeckItems);
 		}
 		if(deckItems != null)
 			return new Deck(deckItems, deckName);
-		else return null;
-		
+		else return null;	
 	}
 	
 	/**
@@ -207,18 +220,16 @@ public class ExtracterMain {
 	}
 
 	/**
-	 * <ul>Builds Environment
-	 * <li></li>
-	 * <li></li>
-	 * <li></li>
+	 * <ul>
+	 * <li>Sets pixel manager</li>
+	 * <li>Reads Cards</li>
+	 * <li>Reads Card Counts (2,3,4 available)</li>
 	 * </ul>
-	 * @param ratio
-	 * @param sideCrop
 	 */
-	public static void buildEnvironment(double ratio, int sideCrop)
+	public static void buildEnvironment()
 	{
 		//Sets PixelManager with resolution
-		PixelManager.setPixelManager(ratio, sideCrop);
+		PixelManager.setPixelManager();
 
 		//Read card list
 		readCards();
@@ -515,4 +526,34 @@ public class ExtracterMain {
 		return cardsText;
 	}
 	
+	/**
+	 * Converts image into 1024x768 version
+	 * @param tempImage
+	 * @return
+	 */
+    private static BufferedImage rescaleImage(BufferedImage tempImage) {
+    	
+    	int gh = 768;
+    	int gw = 1024;
+    	int w = tempImage.getWidth();
+		int h = tempImage.getHeight();	
+		double expectedW = ((double)h/gh)*gw;
+		PixelManager.ratio = expectedW/gw;
+		int expW = (int) expectedW;
+		int sideCrop = (w - expW)/2;
+		PixelManager.sideCrop = sideCrop;
+		int type = tempImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : tempImage.getType();
+		BufferedImage resizedImage = new BufferedImage(gw, gh, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+		RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g.setRenderingHint(RenderingHints.KEY_RENDERING,
+		RenderingHints.VALUE_RENDER_QUALITY);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+		RenderingHints.VALUE_ANTIALIAS_ON);
+		g.drawImage(tempImage.getSubimage(sideCrop, 0, expW, h), 0, 0, gw, gh, null);
+		g.dispose();
+
+		return resizedImage;
+	}
 }
