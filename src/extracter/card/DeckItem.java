@@ -2,11 +2,10 @@ package extracter.card;
 
 import java.awt.image.BufferedImage;
 
-import com.google.gson.annotations.Expose;
 
 public class DeckItem {
-	@Expose private Card card;
-	@Expose private int count;
+	private Card card;
+	private int count;
 	private BufferedImage image;
 	public DeckItem(Card myCard){
 		this.card = myCard;

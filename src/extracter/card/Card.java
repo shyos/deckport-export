@@ -1,20 +1,19 @@
 package extracter.card;
 
-import com.google.gson.annotations.Expose;
 
 import extracter.Constants;
 
 public class Card {
-	@Expose private String name;
+	private String name;
 	private String description;
 	private int attack;
 	private int health;
 	private int card_set_id;
 	private int rarity_id;
 	private int type_id;
-	@Expose private int klass_id;
+	private int klass_id;
 	private int race_id;
-	@Expose private int mana;
+	private int mana;
 	private boolean collectible;
 	private String image_link;
 	private int patch_id;
@@ -117,22 +116,10 @@ public class Card {
 		this.h_1024x768 = h_1024x768;
 	}
 	public int[][] getHash() {
-
-		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
-		{
-			if(h_1024x768 != null)
-				return h_1024x768;
-			else
-				return null;
-		}
-		return null;
+		return h_1024x768;
 	}
 	public void setHash(int[][] cardRGB) {
-		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
-		{
-
-				h_1024x768 = cardRGB;
-		}
+		h_1024x768 = cardRGB;
 	}
 
 }

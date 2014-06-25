@@ -7,94 +7,74 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.commons.io.IOUtils;
 
-import util.WindowCapture;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import extracter.GUI.WB.TrainingApp;
 import extracter.card.Card;
 import extracter.card.CardCount;
 import extracter.card.Deck;
 import extracter.card.DeckItem;
 import extracter.card.prob.ProbList;
-import extracter.card.prob.ProbListItem;
 
 public class ExtracterMain {
-	public static ArrayList<Card> cards;
-	public static Map<String, Card> cardMap;
-	public static Map<Integer, Card> cardIdMap;
-	public static ArrayList<Card> GUICards;
-	public static Map<Integer, Card> GUICardsIdMap;
-	public static WindowCapture WC;
-	public static BufferedImage image;
-	public static int numberOfCardInDeck = 21;
+	private static ArrayList<Card> cards;
+	private static Map<String, Card> cardMap;
+	private static Map<Integer, Card> cardIdMap;
+	private static BufferedImage image;
+	private static int numberOfCardInDeck = 21;
 	private static ArrayList<CardCount> cardCounts;
-	public static ArrayList<ProbList> probList;
-	public static void main(String[] args) throws IOException {
-		
-	//	buildEnvironment(); 
-	//	readCards();
-	//	saveDeckManuel(image);		
-	//	saveDeckAuto(image);	
-	//	importNewCardsToOriginals("guicards.txt");
-	//	exportDeck("First");
-
-	}
+	private static ArrayList<ProbList> probList;
 	
-	// Returns Deck
-	public static Deck exportDeck(String deckName)
+	/**
+	 * Extracts Cards Image from Deck Image and converts into Deck Object.
+	 * @param deckName - name of the deck
+	 * @param img - first part of the deck image
+	 * @param imgScroll - second part of the deck image (Scrolled Deck Image)
+	 * @return Deck
+	 */
+	public static Deck exportDeck(String deckName, BufferedImage img, BufferedImage imgScroll)
 	{
 		ArrayList<DeckItem> deckItems = new ArrayList<DeckItem>();
 		probList = new ArrayList<ProbList>();
-		buildEnvironment();
-		deckItems = fetchCards(image);
+		deckItems = fetchCards(img);
 		boolean isScrollable = true;
 		if(isScrollable)
 		{
 			ArrayList<DeckItem> scrolledDeckItems = new ArrayList<DeckItem>();
-			RobotManager.scrollDown();
-			WC.captureHwnd();
-			image = WC.getImage();
-			scrolledDeckItems = fetchCards(image);
+			scrolledDeckItems = fetchCards(imgScroll);
 			deckItems = mergeDeckParts(deckItems, scrolledDeckItems);
 		}
 		if(deckItems != null)
 			return new Deck(deckItems, deckName);
 		else return null;
+		
 	}
 	
-	// Merge two part of the deck. First part(without scroll) and second part(with scroll)
+	/**
+	 * Merge two part of the deck. First part(without scroll) and second part(with scroll)
+	 * @param part1
+	 * @param part2
+	 * @return
+	 */
 	private static ArrayList<DeckItem> mergeDeckParts(ArrayList<DeckItem> part1,
 			ArrayList<DeckItem> part2) {
 		
 		ArrayList<ProbList> probListPart1 = new ArrayList<ProbList>();
 		probListPart1.addAll(probList.subList(0, part1.size()));
 		
-	/*	for(ProbList y : probListPart1)
-			System.out.println(y.getItems().getLast().getCard().getName() + " " + y.getProbMin());*/
-		
 		ArrayList<ProbList> probListPart2 = new ArrayList<ProbList>();
 		probListPart2.addAll(probList.subList(part1.size(),probList.size()));
 		
-		//makeDeckLogical(part1,probListPart1);
-		
-		//TODO bos deck handle edilebilmeli
-		//TODO yanlis kartlar duzeltilmeli
-		//TODO 
 		int j = 0;
 		boolean onStreak = false;
 		for(int i = 0; i<part1.size();i++)
@@ -226,37 +206,31 @@ public class ExtracterMain {
 		return 0;
 	}
 
-	// Sets up default variables and build environment
-	public static void buildEnvironment()
+	/**
+	 * <ul>Builds Environment
+	 * <li></li>
+	 * <li></li>
+	 * <li></li>
+	 * </ul>
+	 * @param ratio
+	 * @param sideCrop
+	 */
+	public static void buildEnvironment(double ratio, int sideCrop)
 	{
-		//Capture window
-		captureWindow();
-	
 		//Sets PixelManager with resolution
-		PixelManager.setPixelManager();
+		PixelManager.setPixelManager(ratio, sideCrop);
 
 		//Read card list
 		readCards();
 		
 		//Read card count list
 		readCardCounts();
-		
-		//Read GUI card list from txt
-		//readCardsForTraining();
-
 	}
-
-	private static void captureWindow() {
-		WC = new WindowCapture();
-		// Gets Image
-		image = WC.getImage();
-	}
-
+	
 	private static void readCardCounts() {
 		String guicardsText = readFromResourceFile("/txt/cardcounts.txt");
 		Type mapType = new TypeToken<List<CardCount>>(){}.getType(); 
 		cardCounts =  new Gson().fromJson(guicardsText, mapType);
-
 	}
 
 	//Read card list from txt, build maps
@@ -275,19 +249,6 @@ public class ExtracterMain {
 		}
 	}
 	
-	//Read card list for Training App
-	public static void readCardsForTraining()
-	{
-		String guicardsText = readFromFile("guicards.txt");
-		Type mapType = new TypeToken<List<Card>>(){}.getType(); 
-		GUICards =  new Gson().fromJson(guicardsText, mapType);
-		GUICardsIdMap = new HashMap<Integer, Card>();
-		for(Card card : GUICards)
-		{
-			GUICardsIdMap.put(card.getHearthhead_id(), card);
-		}
-	}
-	
 	// Finds similar of the card
 	private static DeckItem matchCards(BufferedImage image, BufferedImage countImage, int manaFlag) {
 		DeckItem deckItem = new DeckItem(findSimilarCard(image, manaFlag));
@@ -295,16 +256,19 @@ public class ExtracterMain {
 		return deckItem;
 
 	}
+	
 	// Compares current card with others (Algortihm included)
 	private static Card findSimilarCard(BufferedImage img, int manaFlag)
 	{
 		return findSimilarCardWithIndex(img, 4, manaFlag);
 	}
+	
 	// Compares current card count with others (Algortihm included)
 	private static int findSimilarCount(BufferedImage img)
 	{
 		return findSimilarCountWithIndex(img, 4);
 	}
+	
 	// Sometimes images position changes few lines, to overcome this also check those coordinates.
 	private static Card findSimilarCardWithIndex(BufferedImage img1,int lineIndex, int manaFlag) {
 	    int width1 = img1.getWidth(null);
@@ -368,6 +332,7 @@ public class ExtracterMain {
 	   // System.out.println(returnCard.getName());
 	    return returnCard;
 	}
+	
 	// Sometimes images position changes few lines, to overcome this also check those coordinates (for the card counts).
 	private static int findSimilarCountWithIndex(BufferedImage img1,int lineIndex) {
 	    int width1 = img1.getWidth(null);
@@ -454,86 +419,10 @@ public class ExtracterMain {
 		return deckItems;
 	}
 
-	// Manuel Card Defining
-	public static void saveDeckManuel(BufferedImage image) {
-
-		Scanner scanIn = new Scanner(System.in);
- 
-		//Match Cards
-		for(int k=0;k<numberOfCardInDeck;k++)
-		{
-			ExtractManager.cropImage(k, image);
-			System.out.println((k+1) + ". kartin adini giriniz: ");
-			String card_name = scanIn.nextLine();
-			
-			while(!cardMap.keySet().contains(card_name))
-			{
-				System.out.println((k+1) + ". kartin adini yanlis girdiniz lutfen tekrar giriniz: ");
-				card_name = scanIn.nextLine();
-			}
-			
-			if(cardMap.keySet().contains(card_name))
-			{
-				for(Card card : cards)
-					if(card.getName().equals(card_name))
-					{
-						int[][] cardRGB = new int[PixelManager.getRgbH()][PixelManager.getRgbW()];
-					
-						for (int i = 0; i < PixelManager.getRgbH(); i++) {
-						      for (int j = 0; j < PixelManager.getRgbW(); j++) {
-						        cardRGB[i][j] = ExtractManager.subImage.getRGB(j, i);
-						      }} 
-						card.setHash(cardRGB);
-						System.out.println((k+1) + ". kart icin islem basariyla tamamlanmistir.");
-					}
-			}	
-		}
-		//Write to a file
-		writeToResourceFile(cards, "/txt/cards.txt");
-	}
-
 	// Used by TrainingAPP GUI to fetch card images
 	public static void getCardImage(int k)
 	{
 		ExtractManager.cropImage(k, image);
-	}
-	
-	// Used by TrainingAPP GUI to save single card hash (Only for Training Purposes)
-	public static int saveSingleCard(int k, String card_name)
-	{
-		ExtractManager.cropImage(k, image);
-		System.out.println((k+1) + ". kartin adini giriniz: ");
-		
-		while(!cardMap.keySet().contains(card_name))
-		{
-			TrainingApp.showMessageDialog(null, (k+1) + ". kartin adini yanlis girdiniz lutfen tekrar giriniz! ");
-			return k;
-		}
-		
-		if(cardMap.keySet().contains(card_name))
-		{
-			for(Card card : cards)
-				if(card.getName().equals(card_name))
-				{
-					int[][] cardRGB = new int[PixelManager.getRgbH()][PixelManager.getRgbW()];
-				
-					for (int i = 0; i < PixelManager.getRgbH(); i++) {
-					      for (int j = 0; j < PixelManager.getRgbW(); j++) {
-					        cardRGB[i][j] = ExtractManager.subImage.getRGB(j, i);
-					      }} 
-					card.setHash(cardRGB);
-					Card tempCard = card;
-					
-					if(!GUICardsIdMap.keySet().contains(tempCard.getHearthhead_id()))
-						GUICards.add(tempCard);
-					GUICardsIdMap.put(tempCard.getHearthhead_id(), tempCard);
-					
-					System.out.println((k+1) + ". kart icin islem basariyla tamamlanmistir.");
-					return k+1;
-				}
-
-		}
-		return k;
 	}
 
 	// Writes cards to resource file as txt
@@ -576,6 +465,7 @@ public class ExtracterMain {
 
 		return cardsText;
 	}
+	
 	// Writes cards to txt
 	public static void writeToFile(Object cards, String filename) {
 		try {
@@ -625,58 +515,4 @@ public class ExtracterMain {
 		return cardsText;
 	}
 	
-	// Import new data into cards.txt
-	public static void importNewCardsToOriginals(String filename)
-	{
-		String cardsText = readFromFile(filename);
-		Type mapType = new TypeToken<List<Card>>(){}.getType(); 
-		ArrayList<Card> newCards = new Gson().fromJson(cardsText, mapType);
-		
-		cardsText = readFromResourceFile("/txt/cards.txt");
-		ArrayList<Card> originals = new Gson().fromJson(cardsText, mapType);
-		HashMap<Integer, Card> originalsMap = new HashMap<Integer, Card>();
-		for(Card card : originals)
-		{
-			originalsMap.put(card.getHearthhead_id(), card);
-		}
-		
-		for(Card card : newCards)
-		{
-			originalsMap.put(card.getHearthhead_id(), card);
-		}
-		
-		ArrayList<Card> resultList = new ArrayList<Card>();
-		for(Integer key : originalsMap.keySet())
-		{
-			resultList.add(originalsMap.get(key));
-		}
-		
-		writeToResourceFile(resultList, "/txt/cards.txt");
-	}
-
-	// Check client resolution
-	public static boolean checkResolution() {
-		ArrayList<String> availableRes = new ArrayList<String>();
-		availableRes.add("1024x768");
-		WindowCapture myWC = null;
-		myWC = new WindowCapture();
-		BufferedImage res = myWC.getImage();
-		if(res == null)
-		{
-			TrainingApp.showMessageDialog(null, "Hearthstone.exe not found.");
-			return false;
-		}	
-		Resolution clientRes = new Resolution(res.getWidth(), res.getHeight());
-		if(availableRes.contains(clientRes.toString()))
-		{
-			Constants._RESOLUTION = clientRes;
-			return true;
-		}
-		else
-		{
-			TrainingApp.showMessageDialog(null, "Your current resolution is "+ clientRes.toString() + ". Please change your Hearthstone resolution. Possible resolutions are: " + availableRes.toString());
-			return false;
-		}
-
-	}
 }

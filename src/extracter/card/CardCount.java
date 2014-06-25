@@ -15,14 +15,7 @@ public class CardCount {
 	private int count;
 	private int[][] h_1024x768;
 	public int[][] getHash() {
-		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
-		{
-			if(h_1024x768 != null)
-				return h_1024x768;
-			else
-				return null;
-		}
-		return null;
+		return h_1024x768;
 	}
 	public String getDescription() {
 		return description;

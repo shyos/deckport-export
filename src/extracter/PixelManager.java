@@ -32,14 +32,18 @@ public class PixelManager {
 	public static double ratio;
 	public static int sideCrop;
 	
+	public static void setPixelManager(double ratio2, int sideCrop2) {
+		ratio = ratio2;
+		sideCrop = sideCrop2;
+		initWithResolution();
+	}
+
 	public static void setPixelManager(){
 		initWithResolution();
 	}
 	
 	// Fetches coordinates according to resolution
 	private static void initWithResolution() {
-		if(Constants._RESOLUTION.getHeight() == 768 && Constants._RESOLUTION.getWidth() == 1024)
-		{
 			x_FirstCard = (int) (800);
 			y_FirstCard = (int) (80);
 			
@@ -65,7 +69,6 @@ public class PixelManager {
 			y_SearchedCard = (int) (250*ratio);
 			x_Scroll = (int)(sideCrop + 1000*ratio);
 			y_Scroll = (int) (100*ratio);
-		}
 		
 	}
 
@@ -177,6 +180,7 @@ public class PixelManager {
 	public static void setCropHeight(int cropHeight) {
 		PixelManager.cropHeight = cropHeight;
 	}
+
 
 
 
