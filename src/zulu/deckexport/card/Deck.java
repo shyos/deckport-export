@@ -1,8 +1,10 @@
-package extracter.card;
+/**
+ * @author shyos
+ */
+package zulu.deckexport.card;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 
@@ -12,9 +14,8 @@ public class Deck {
 	private String deckOwner;
 	private String deckClass;
 	private List<DeckItem> cards;
-	public Deck(ArrayList<DeckItem> deckItems, String deckName) {
+	public Deck(ArrayList<DeckItem> deckItems) {
 		this.setCards(deckItems);
-		this.deckName = deckName;
 	}
 	public String getDeckName() {
 		return deckName;
@@ -43,5 +44,17 @@ public class Deck {
 	}
 	public void setDeckClass(String deckClass) {
 		this.deckClass = deckClass;
+	}
+	public String getDeckLink() {
+		return deckLink;
+	}
+	public void setDeckLink(String deckLink) {
+		this.deckLink = deckLink;
+	}
+	public String getDeckOwner() {
+		return deckOwner;
+	}
+	public void setDeckOwner(String deckOwner) {
+		this.deckOwner = deckOwner;
 	}
 }

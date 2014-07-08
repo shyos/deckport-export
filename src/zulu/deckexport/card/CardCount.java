@@ -1,6 +1,8 @@
-package extracter.card;
+/**
+ * @author shyos
+ */
+package zulu.deckexport.card;
 
-import extracter.Constants;
 
 public class CardCount {
 	public CardCount(int card_count, String card_count_type, int[][] countRGB) {

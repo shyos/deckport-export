@@ -1,7 +1,9 @@
-package extracter.card;
+/**
+ * @author shyos
+ */
+package zulu.deckexport.card;
 
 
-import extracter.Constants;
 
 public class Card {
 	private String name;
@@ -19,8 +21,7 @@ public class Card {
 	private int patch_id;
 	private int hearthhead_id;
 	
-	private int[][] h_1024x768;
-	//New deckImageHash values should be added according to resolution
+	private int[][] h_1024x768; //Stores RGB map of card
 	
 	public Card(String name) {
 		this.name = name;

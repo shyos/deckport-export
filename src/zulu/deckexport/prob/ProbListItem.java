@@ -1,6 +1,9 @@
-package extracter.card.prob;
+/**
+ * @author shyos
+ */
+package zulu.deckexport.prob;
 
-import extracter.card.Card;
+import zulu.deckexport.card.Card;
 
 public class ProbListItem {
 	private Card card;

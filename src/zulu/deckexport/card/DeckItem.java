@@ -1,4 +1,7 @@
-package extracter.card;
+/**
+ * @author shyos
+ */
+package zulu.deckexport.card;
 
 import java.awt.image.BufferedImage;
 

@@ -1,6 +1,10 @@
-package extracter;
+/**
+ * @author shyos
+ */
+package zulu.deckexport.card;
 
-import util.Myrect;
+import zulu.deckexport.extracter.PixelManager;
+import zulu.deckexport.util.Myrect;
 
 public class DeckItemImage {
 	private Myrect mana;

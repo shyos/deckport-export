@@ -1,4 +1,7 @@
-package util;
+/**
+ * @author shyos
+ */
+package zulu.deckexport.util;
 
 public class Myrect {
 	private int x;
