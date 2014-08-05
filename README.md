@@ -10,7 +10,7 @@ To export a deck, one need to call ```ExtracterMain.exportDeck()``` function. He
 4. Get image of the window(img2- scrolled image of the deck)
 5. Call ExtracterMain.exportDeck(img1,img2)
 
-I added a simple ```main()``` funtion to ```ExtracterMain.java``` which basically does above pseudo-code. Try and run it!
+I added a simple ```main()``` funtion to ```ExtracterMain.java``` which basically does above pseudo-code. Try and run it! There is also a jar file which you can download and use it.
 
 ### How does it work?
 
@@ -20,7 +20,7 @@ Deck Export uses these information and finds most similar cards for each undefin
 
 ### Trademark
 
-This library designed for HearthStats. If anyone copies code or uses jar let me know you are using it, then we are okay! :)
+This library designed for HearthStats. This is also what I used in DeckPort. If anyone copies code or uses jar let me know you are using it, then we are okay! :) 
 
 ### Updates
 Does not includes Naxxramas cards.
