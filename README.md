@@ -20,7 +20,7 @@ Deck Export uses these information and finds most similar cards for each undefin
 
 ### Trademark
 
-If anyone copies code let me know you are using it, then we are okay! :)
+This library designed for HearthStats. If anyone copies code or uses jar let me know you are using it, then we are okay! :)
 
 ### Updates
 Does not includes Naxxramas cards.
