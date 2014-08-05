@@ -10,7 +10,7 @@ To export a deck, one need to call ```ExtracterMain.exportDeck()``` function. He
 4. Get image of the window(img2- scrolled image of the deck)
 5. Call ExtracterMain.exportDeck(img1,img2)
 
-I added a simple ```main()``` funtion to ```ExtracterMain.java``` which basically does above pseudo-code. Try and run it! There is also a jar file which you can download and use it.
+I added a simple ```main()``` funtion to ```ExtracterMain.java``` which basically does above pseudo-code. Try and run it! There is also a jar file which you can download and use.
 
 ### How does it work?
 
